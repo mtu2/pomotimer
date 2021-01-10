@@ -1,27 +1,91 @@
 .timer {
 }
-.buttonContainer {
+.statesButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+
+  button {
+    display: flex;
+    align-items: flex-end;
+
+    margin: 0px 6px;
+    padding: 4px 12px;
+    border: none;
+    outline: none;
+    border: 1px solid rgba(25, 4, 69, 0.1);
+    box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.05);
+    border-radius: 33px;
+
+    font-weight: 700;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.54);
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+    }
+    &:hover {
+      cursor: pointer;
+      border: 1px solid rgba(25, 4, 69, 0.3);
+      box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.1);
+    }
+  }
+  .pomodoroButton {
+    background: #f9d3d3;
+  }
+  .shortBreakButton {
+    background: #e8f1f3;
+  }
+  .longBreakButton {
+    background: #eceefa;
+  }
+  // .active {
+  //   background: rgba(243, 79, 76, 0.4);
+  //   border: 1px solid rgba(25, 4, 69, 0.1);
+  //   box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.05);
+  //   color: white;
+  // }
+  // .inactive {
+  //   background: none;
+  // }
+}
+.controlsButtonContainer {
   display: flex;
   justify-content: center;
 
-  margin-top: 32px;
-
   button {
-    margin: 0px 12px;
-    padding: 4px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 64px;
+    height: 64px;
+
+    background: #f3f3f3;
+    margin: 0px 6px;
+    padding: 4px 12px;
     border: none;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 16px;
-  }
-  .active {
-    background: rgba(243, 79, 76, 0.4);
+    outline: none;
     border: 1px solid rgba(25, 4, 69, 0.1);
     box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.05);
-    color: white;
+    border-radius: 33px;
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      fill: rgba(0, 0, 0, 0.54);
+    }
+    &:hover {
+      cursor: pointer;
+      border: 1px solid rgba(25, 4, 69, 0.3);
+      box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.1);
+    }
   }
-  .inactive {
-    background: none;
+  .startStopButton {
+    width: 176px;
+    background: #dbf495;
   }
 }
 .timerContainer {
@@ -30,12 +94,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  margin-top: 16px;
+  margin-bottom: 16px;
   width: 340px;
   height: 340px;
 
   h2 {
     z-index: 200;
-    margin-top: 19px; //center in circle (p height = 19px)
+    margin-top: 10px; //center in circle (p height = 19px)
     font-weight: 700;
     font-size: 72px;
     color: white;

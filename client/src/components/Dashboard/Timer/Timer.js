@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Timer.module.scss";
+
 import { entryAPI } from "../../../utils/API";
 import { formatTime } from "../../../utils/times";
+
+import { ReactComponent as TomatoIcon } from "../../../assets/icons/tomato.svg";
+import { ReactComponent as CoffeeIcon } from "../../../assets/icons/coffee.svg";
+import { ReactComponent as CoffeePotIcon } from "../../../assets/icons/coffee-pot.svg";
+import { ReactComponent as PlayIcon } from "../../../assets/icons/play.svg";
+import { ReactComponent as PauseIcon } from "../../../assets/icons/pause.svg";
+import { ReactComponent as StopIcon } from "../../../assets/icons/stop.svg";
+import { ReactComponent as ReplayIcon } from "../../../assets/icons/replay.svg";
 
 const STATES_DICT = {
   p: 1500,
@@ -42,16 +51,22 @@ function Timer() {
     setState(newState);
     setCountdown(STATES_DICT[newState]);
   }
-  function handleStartResume() {
+  function handleStartStop() {
     if (counting) clearInterval(timerId);
     setCounting(!counting);
   }
   function handleReset() {
+    // Stops current timer
+    if (counting) clearInterval(timerId);
+
     // Resets current timer
     setCountdown(STATES_DICT[state]);
     setCounting(false);
   }
   function handleCancelSave() {
+    // Stops current timer
+    if (counting) clearInterval(timerId);
+
     // Finishes current pomodoro and submits entry
     if (state !== "p") return;
     submitEntry(STATES_DICT[state] - countdown);
@@ -76,31 +91,36 @@ function Timer() {
 
   return (
     <div className={styles.timer}>
-      <h1>Timer</h1>
-      <div className={styles.buttonContainer}>
+      <div className={styles.statesButtonContainer}>
         <button
-          onClick={() => {
-            handleStateChange("p");
-          }}
-          className={`${state === "p" ? styles.active : styles.inactive}`}
+          onClick={() => handleStateChange("p")}
+          title="Pomodoro"
+          className={`${state === "p" ? styles.active : styles.inactive} ${
+            styles.pomodoroButton
+          }`}
         >
-          Pomodoro
+          <TomatoIcon className={styles.icon} />
+          <p>{formatTime(STATES_DICT["p"])}</p>
         </button>
         <button
-          onClick={() => {
-            handleStateChange("sb");
-          }}
-          className={`${state === "sb" ? styles.active : styles.inactive}`}
+          onClick={() => handleStateChange("sb")}
+          title="Short Break"
+          className={`${state === "sb" ? styles.active : styles.inactive} ${
+            styles.shortBreakButton
+          }`}
         >
-          Short Break
+          <CoffeeIcon className={styles.icon} />
+          <p>{formatTime(STATES_DICT["sb"])}</p>
         </button>
         <button
-          onClick={() => {
-            handleStateChange("lb");
-          }}
-          className={`${state === "lb" ? styles.active : styles.inactive}`}
+          onClick={() => handleStateChange("lb")}
+          title="Long Break"
+          className={`${state === "lb" ? styles.active : styles.inactive} ${
+            styles.longBreakButton
+          }`}
         >
-          Long Break
+          <CoffeePotIcon className={styles.icon} />
+          <p>{formatTime(STATES_DICT["lb"])}</p>
         </button>
       </div>
       <div className={styles.timerContainer}>
@@ -124,9 +144,25 @@ function Timer() {
           </svg>
         </div>
       </div>
-      <button onClick={handleStartResume}>Start/Resume</button>
-      <button onClick={handleReset}>Reset</button>
-      <button onClick={handleCancelSave}>Cancel & Save</button>
+      <div className={styles.controlsButtonContainer}>
+        <button onClick={handleReset} title="Reset">
+          <ReplayIcon className={styles.icon} />
+        </button>
+        <button onClick={handleCancelSave} title="Cancel & Save">
+          <StopIcon className={styles.icon} />
+        </button>
+        <button
+          onClick={handleStartStop}
+          className={styles.startStopButton}
+          title="Start/Stop"
+        >
+          {counting ? (
+            <PauseIcon className={styles.icon} />
+          ) : (
+            <PlayIcon className={styles.icon} />
+          )}
+        </button>
+      </div>
     </div>
   );
 }
