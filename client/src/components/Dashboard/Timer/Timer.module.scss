@@ -1,0 +1,96 @@
+.timer {
+}
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 32px;
+
+  button {
+    margin: 0px 12px;
+    padding: 4px 16px;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .active {
+    background: rgba(243, 79, 76, 0.4);
+    border: 1px solid rgba(25, 4, 69, 0.1);
+    box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.05);
+    color: white;
+  }
+  .inactive {
+    background: none;
+  }
+}
+.timerContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 340px;
+  height: 340px;
+
+  h2 {
+    z-index: 200;
+    margin-top: 19px; //center in circle (p height = 19px)
+    font-weight: 700;
+    font-size: 72px;
+    color: white;
+  }
+  p {
+    z-index: 200;
+    font-size: 16px;
+    color: white;
+  }
+  .innerCircle {
+    position: absolute;
+    z-index: 100;
+
+    width: 300px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(32.39deg, #f14248 12.86%, #f77056 91.72%);
+    border-radius: 50%;
+    mix-blend-mode: normal;
+    box-shadow: 0px 0px 4px 4px rgba(173, 42, 42, 0.25);
+  }
+  .outerCircle {
+    position: absolute;
+    z-index: 0;
+
+    width: 340px;
+    height: 340px;
+
+    svg {
+      transform: scaleX(-1);
+      g {
+        fill: none;
+        stroke: none;
+      }
+      circle {
+        stroke-width: 7px;
+        stroke: rgba(241, 66, 72, 0.1);
+      }
+      path {
+        /* Just as thick as the original ring */
+        stroke-width: 7px;
+
+        /* Makes sure the animation starts at the top of the circle */
+        transform: rotate(90deg);
+        transform-origin: center;
+
+        /* One second aligns with the speed of the countdown timer */
+        transition: 1s linear all;
+
+        /* Allows the ring to change color when the color value updates */
+        stroke: rgba(247, 112, 86, 0.6);
+      }
+    }
+  }
+}
