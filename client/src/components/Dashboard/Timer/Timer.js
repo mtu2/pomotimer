@@ -12,46 +12,86 @@ import { ReactComponent as PauseIcon } from "../../../assets/icons/pause.svg";
 import { ReactComponent as StopIcon } from "../../../assets/icons/stop.svg";
 import { ReactComponent as ReplayIcon } from "../../../assets/icons/replay.svg";
 
-const STATES_DICT = {
-  p: 1500,
-  sb: 300,
-  lb: 900,
+// BUG FIX: Bintang's answer https://stackoverflow.com/questions/39807957/countdown-timer-delays-when-tab-is-inactive
+
+const TYPES_DICT = {
+  p: 1500000,
+  sb: 300000,
+  lb: 900000,
 };
 const FULL_DASH_ARRAY = 283;
+async function submitEntry(description, type, duration, startTime) {
+  // Submit entry to database
+  const entryData = {
+    description,
+    type,
+    duration,
+    startTime,
+  };
+
+  // Remove description field if not entered
+  if (
+    entryData.description === "" ||
+    entryData.description === undefined ||
+    entryData.description === null
+  ) {
+    delete entryData.description;
+  }
+  await entryAPI.create(entryData);
+}
 
 function Timer() {
-  const [countdown, setCountdown] = useState(1500);
+  const [countdown, setCountdown] = useState(1500000); // ms
   const [counting, setCounting] = useState(false);
   const [timerId, setTimerId] = useState(null);
-  const [state, setState] = useState("p");
+
+  const [description, setDescription] = useState("");
+  const [type, setType] = useState("p");
+  const [startTime, setStartTime] = useState(null);
 
   useEffect(() => {
     if (countdown > 0 && counting) {
+      // Fix to calculate correct time passed (fix for when tab is inactive in Chrome)
+      const lastTime = new Date();
+
       const id = setTimeout(() => {
-        setCountdown(countdown - 1);
-      }, 1000);
+        // Calculate and update actual time passed
+        const elapsedTime = Date.now() - lastTime;
+        setCountdown(countdown - elapsedTime);
+      }, 250);
+
       setTimerId(id);
-    } else if (countdown === 0) {
-      if (state === "p") {
+    } else if (countdown === 0 || countdown < 0) {
+      // Submit finished timer
+      submitEntry(description, type, TYPES_DICT[type] / 1000, startTime);
+
+      if (type === "p") {
         // If end of pomodoro timer
-        submitEntry(STATES_DICT["p"]);
-        setState("sb");
-        setCountdown(STATES_DICT["sb"]);
-      } else if (state === "sb" || state === "lb") {
+        setType("sb");
+        setCountdown(TYPES_DICT["sb"]);
+      } else if (type === "sb" || type === "lb") {
         // If end of short/long break timer
-        setState("p");
-        setCountdown(STATES_DICT["p"]);
+        setType("p");
+        setCountdown(TYPES_DICT["p"]);
       }
       setCounting(false);
+      setStartTime(null);
     }
-  }, [countdown, counting, state]);
+  }, [countdown, counting, description, type, startTime]);
 
-  function handleStateChange(newState) {
-    if (state === newState || counting) return;
-    setState(newState);
-    setCountdown(STATES_DICT[newState]);
+  function handleTypeChange(newType) {
+    // Change type of timer if not counting
+    if (type === newType || counting) return;
+    setType(newType);
+    setCountdown(TYPES_DICT[newType]);
   }
   function handleStartStop() {
+    // If just started counting set start time
+    if (countdown === TYPES_DICT[type]) {
+      setStartTime(Date.now());
+    }
+
+    // Starts/stops current timer
     if (counting) clearInterval(timerId);
     setCounting(!counting);
   }
@@ -60,30 +100,35 @@ function Timer() {
     if (counting) clearInterval(timerId);
 
     // Resets current timer
-    setCountdown(STATES_DICT[state]);
+    setCountdown(TYPES_DICT[type]);
     setCounting(false);
+    setStartTime(null);
   }
   function handleCancelSave() {
     // Stops current timer
     if (counting) clearInterval(timerId);
 
-    // Finishes current pomodoro and submits entry
-    if (state !== "p") return;
-    submitEntry(STATES_DICT[state] - countdown);
-    setCountdown(STATES_DICT[state]);
+    // Resets current timer and submits entry if non-zero
+    if (TYPES_DICT[type] - countdown > 0) {
+      submitEntry(
+        description,
+        type,
+        Math.floor((TYPES_DICT[type] - countdown) / 1000),
+        startTime
+      );
+    }
+    setCountdown(TYPES_DICT[type]);
     setCounting(false);
+    setStartTime(null);
   }
-  async function submitEntry(duration, description) {
-    const entryData = {
-      duration,
-      description,
-    };
-    await entryAPI.create(entryData);
+  function handleDescriptionChange(ev) {
+    setDescription(ev.target.value);
   }
+
   function calcStrokeDasharray() {
-    const timeFraction = countdown / STATES_DICT[state];
+    const timeFraction = countdown / TYPES_DICT[type];
     const adjustedTimeFraction =
-      timeFraction - (1 / STATES_DICT[state]) * (1 - timeFraction);
+      timeFraction - (1 / TYPES_DICT[type]) * (1 - timeFraction);
     return `${((1 - adjustedTimeFraction) * FULL_DASH_ARRAY).toFixed(
       0
     )} ${FULL_DASH_ARRAY}`;
@@ -91,41 +136,44 @@ function Timer() {
 
   return (
     <div className={styles.timer}>
-      <div className={styles.statesButtonContainer}>
+      {/* Types Buttons - Pomodoro, SB, LB */}
+      <div className={styles.typesButtonContainer}>
         <button
-          onClick={() => handleStateChange("p")}
+          onClick={() => handleTypeChange("p")}
           title="Pomodoro"
-          className={`${state === "p" ? styles.active : styles.inactive} ${
+          className={`${type === "p" ? styles.active : styles.inactive} ${
             styles.pomodoroButton
           }`}
         >
           <TomatoIcon className={styles.icon} />
-          <p>{formatTime(STATES_DICT["p"])}</p>
+          <p>{formatTime(TYPES_DICT["p"] / 1000)}</p>
         </button>
         <button
-          onClick={() => handleStateChange("sb")}
+          onClick={() => handleTypeChange("sb")}
           title="Short Break"
-          className={`${state === "sb" ? styles.active : styles.inactive} ${
+          className={`${type === "sb" ? styles.active : styles.inactive} ${
             styles.shortBreakButton
           }`}
         >
           <CoffeeIcon className={styles.icon} />
-          <p>{formatTime(STATES_DICT["sb"])}</p>
+          <p>{formatTime(TYPES_DICT["sb"] / 1000)}</p>
         </button>
         <button
-          onClick={() => handleStateChange("lb")}
+          onClick={() => handleTypeChange("lb")}
           title="Long Break"
-          className={`${state === "lb" ? styles.active : styles.inactive} ${
+          className={`${type === "lb" ? styles.active : styles.inactive} ${
             styles.longBreakButton
           }`}
         >
           <CoffeePotIcon className={styles.icon} />
-          <p>{formatTime(STATES_DICT["lb"])}</p>
+          <p>{formatTime(TYPES_DICT["lb"] / 1000)}</p>
         </button>
       </div>
+
+      {/* Timer */}
       <div className={styles.timerContainer}>
-        <h2>{formatTime(countdown)}</h2>
-        <p>/ {formatTime(STATES_DICT[state])}</p>
+        <h2>{formatTime(Math.floor(countdown / 1000))}</h2>
+        <p>/ {formatTime(TYPES_DICT[type] / 1000)}</p>
         <div className={styles.innerCircle} />
         <div className={styles.outerCircle}>
           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -144,6 +192,8 @@ function Timer() {
           </svg>
         </div>
       </div>
+
+      {/* Control Timer Buttons - Reset, Cancel & Save, Start/Stop */}
       <div className={styles.controlsButtonContainer}>
         <button onClick={handleReset} title="Reset">
           <ReplayIcon className={styles.icon} />
@@ -162,6 +212,16 @@ function Timer() {
             <PlayIcon className={styles.icon} />
           )}
         </button>
+      </div>
+
+      {/* Description of Entry (optional) */}
+      <div className={styles.descriptionContainer}>
+        <input
+          type="text"
+          placeholder="I'm focusing on..."
+          value={description}
+          onChange={handleDescriptionChange}
+        ></input>
       </div>
     </div>
   );

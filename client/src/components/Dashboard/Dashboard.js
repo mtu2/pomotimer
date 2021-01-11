@@ -6,11 +6,15 @@ import EntryLog from "./EntryLog/EntryLog";
 
 function Dashboard() {
   return (
-    <div className={styles.dashboard}>
-      <h1>🌞 mtu-pomodoro</h1>
-      <Timer />
-      <EntryLog />
-    </div>
+    <>
+      <div className={styles.header}>
+        <h1>🌞 mtu-pomodoro</h1>
+      </div>
+      <div className={styles.dashboard}>
+        <Timer />
+        <EntryLog />
+      </div>
+    </>
   );
 }
 

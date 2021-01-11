@@ -1,0 +1,19 @@
+.entryLog {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 48px;
+  padding: 4px 12px;
+  width: 340px;
+
+  border: 1px solid rgba(25, 4, 69, 0.1);
+  border-radius: 16px;
+  background: white;
+  font-size: 18px;
+
+  .tableHead {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    font-weight: 700;
+  }
+}

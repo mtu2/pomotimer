@@ -9,13 +9,25 @@ module.exports = {
       res.status(400).json("Error: " + err);
     }
   },
+  deleteAll: async function (req, res) {
+    try {
+      await Entry.deleteMany();
+      res.json("All entries deleted.");
+    } catch (err) {
+      res.status(400).json("Error: " + err);
+    }
+  },
   create: async function (req, res) {
     const description = req.body.description;
+    const type = req.body.type;
     const duration = Number(req.body.duration);
+    const startTime = Date(req.body.startTime);
 
     const newEntry = new Entry({
       description,
+      type,
       duration,
+      startTime,
     });
 
     try {
@@ -39,7 +51,9 @@ module.exports = {
         { _id: req.params.id },
         {
           description: req.body.description,
+          type: req.body.type,
           duration: Number(req.body.duration),
+          startTime: Date(req.body.startTime),
         }
       );
       res.json("Entry updated.");
@@ -51,6 +65,16 @@ module.exports = {
     try {
       await Entry.deleteOne({ _id: req.params.id });
       res.json("Entry deleted.");
+    } catch (err) {
+      res.status(400).json("Error: " + err);
+    }
+  },
+
+  // dev
+  createMultiple: async function (req, res) {
+    try {
+      await Entry.insertMany(req.body.entries);
+      res.json("Entries added.");
     } catch (err) {
       res.status(400).json("Error: " + err);
     }
