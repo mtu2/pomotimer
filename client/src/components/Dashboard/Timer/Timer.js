@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./Timer.module.scss";
 
 import { entryAPI } from "../../../utils/API";
-import { formatTime } from "../../../utils/times";
+import { formatSecToMinSec } from "../../../utils/times";
 
 import { ReactComponent as TomatoIcon } from "../../../assets/icons/tomato.svg";
 import { ReactComponent as CoffeeIcon } from "../../../assets/icons/coffee.svg";
@@ -146,7 +146,7 @@ function Timer() {
           }`}
         >
           <TomatoIcon className={styles.icon} />
-          <p>{formatTime(TYPES_DICT["p"] / 1000)}</p>
+          <p>{formatSecToMinSec(TYPES_DICT["p"] / 1000)}</p>
         </button>
         <button
           onClick={() => handleTypeChange("sb")}
@@ -156,7 +156,7 @@ function Timer() {
           }`}
         >
           <CoffeeIcon className={styles.icon} />
-          <p>{formatTime(TYPES_DICT["sb"] / 1000)}</p>
+          <p>{formatSecToMinSec(TYPES_DICT["sb"] / 1000)}</p>
         </button>
         <button
           onClick={() => handleTypeChange("lb")}
@@ -166,14 +166,14 @@ function Timer() {
           }`}
         >
           <CoffeePotIcon className={styles.icon} />
-          <p>{formatTime(TYPES_DICT["lb"] / 1000)}</p>
+          <p>{formatSecToMinSec(TYPES_DICT["lb"] / 1000)}</p>
         </button>
       </div>
 
       {/* Timer */}
       <div className={styles.timerContainer}>
-        <h2>{formatTime(Math.floor(countdown / 1000))}</h2>
-        <p>/ {formatTime(TYPES_DICT[type] / 1000)}</p>
+        <h2>{formatSecToMinSec(Math.floor(countdown / 1000))}</h2>
+        <p>/ {formatSecToMinSec(TYPES_DICT[type] / 1000)}</p>
         <div className={styles.innerCircle} />
         <div className={styles.outerCircle}>
           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
