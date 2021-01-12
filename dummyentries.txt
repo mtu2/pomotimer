@@ -1,40 +1,30 @@
 [
     {
-        "type": "p",
-        "duration": 1500,
-        "startTime": "2021-01-11T06:15:49.000Z"
-    },
-    {
-        "type": "sb",
-        "duration": 300,
-        "startTime": "2021-01-11T06:10:49.000Z"
-    },
-    {
-        "type": "p",
-        "duration": 1500,
-        "startTime": "2021-01-11T05:45:49.000Z"
-    },
-    {
+        "description": "Testing and debugging",
         "type": "p",
         "duration": 1235,
         "startTime": "2021-01-10T05:45:49.000Z"
     },
     {
+        "description": "Design work",
         "type": "lb",
         "duration": 900,
         "startTime": "2021-01-10T05:30:49.000Z"
     },
     {
+        "description": "Design work",
         "type": "p",
         "duration": 1500,
         "startTime": "2021-01-10T05:05:49.000Z"
     },
     {
+        "description": "Code review",
         "type": "sb",
         "duration": 300,
         "startTime": "2021-01-10T05:00:49.000Z"
     },
     {
+        "description": "Code review",
         "type": "p",
         "duration": 1500,
         "startTime": "2021-01-10T04:35:49.000Z"
@@ -50,21 +40,43 @@
         "startTime": "2021-01-10T04:05:49.000Z"
     },
     {
+        "description": "Researching",
+        "type": "p",
+        "duration": 1500,
+        "startTime": "2021-01-11T06:15:49.000Z"
+    },
+    {
+        "description": "Researching",
+        "type": "sb",
+        "duration": 300,
+        "startTime": "2021-01-11T06:10:49.000Z"
+    },
+    {
+        "description": "Researching",
+        "type": "p",
+        "duration": 1500,
+        "startTime": "2021-01-11T05:45:49.000Z"
+    },
+    {
+        "description": "Backend boilerplate work",
         "type": "p",
         "duration": 1500,
         "startTime": "2020-01-09T02:15:49.000Z"
     },
     {
+        "description": "Backend boilerplate work",
         "type": "lb",
         "duration": 795,
         "startTime": "2020-01-09T02:00:49.000Z"
     },
     {
+        "description": "Backend boilerplate work",
         "type": "p",
         "duration": 1380,
         "startTime": "2020-01-09T01:35:49.000Z"
     },
     {
+        "description": "Wireframe of pomodoro",
         "type": "p",
         "duration": 1500,
         "startTime": "2020-01-09T01:10:49.000Z"

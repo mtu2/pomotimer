@@ -47,6 +47,16 @@ export function formatSecToMinSec(seconds) {
   return minutesString + secondsString;
 }
 
+export function formatSecToMinSec2(seconds) {
+  // e.g 130secs --> 2:10
+  // e.g.20secs --> 0:20
+  const minutes = Math.floor(seconds / 60);
+  seconds = seconds - minutes * 60;
+  const minutesString = minutes + ":";
+  const secondsString = seconds < 10 ? "0" + seconds : seconds.toString();
+  return minutesString + secondsString;
+}
+
 export function formatSecToHourMin(seconds) {
   // e.g 150min --> 2h 30m
   // e.g. 20min --> 0h 20m

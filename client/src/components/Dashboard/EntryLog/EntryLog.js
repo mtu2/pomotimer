@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./EntryLog.module.scss";
 
-import { entryAPI } from "../../../utils/API";
 import {
-  formatSecToMinSec,
+  formatSecToMinSec2,
   formatSecToHourMin,
   formatDateToDayMonth,
 } from "../../../utils/times";
+import { ReactComponent as TomatoIcon } from "../../../assets/icons/tomato.svg";
+import { ReactComponent as CoffeeIcon } from "../../../assets/icons/coffee.svg";
+import { ReactComponent as CoffeePotIcon } from "../../../assets/icons/coffee-pot.svg";
 
 const TYPES_DEFAULT_DESCRIPTION_DICT = {
   p: "Pomodoro",
@@ -18,14 +20,20 @@ const TYPES_STYLES_DICT = {
   sb: styles.shortBreak,
   lb: styles.longBreak,
 };
+const TYPES_ICONS_DICT = {
+  p: <TomatoIcon className={styles.inlineIcon} />,
+  sb: <CoffeeIcon className={styles.inlineIcon} />,
+  lb: <CoffeePotIcon className={styles.inlineIcon} />,
+};
 
 const EntryRow = (props) => {
   return (
     <div className={`${styles.entryRow} ${TYPES_STYLES_DICT[props.type]}`}>
-      <p>{`${props.type} ${
-        props.description || TYPES_DEFAULT_DESCRIPTION_DICT[props.type]
-      }`}</p>
-      <p className={styles.duration}>{formatSecToMinSec(props.duration)}</p>
+      <p>
+        {TYPES_ICONS_DICT[props.type]}&nbsp;&nbsp;
+        {props.description || TYPES_DEFAULT_DESCRIPTION_DICT[props.type]}
+      </p>
+      <p className={styles.duration}>{formatSecToMinSec2(props.duration)}</p>
     </div>
   );
 };
@@ -48,7 +56,8 @@ const EntryTable = (props) => {
         <div className={styles.entryHead}>
           <p>{formatDateToDayMonth(props.tableData[0].startTime)}</p>
           <p>
-            {calcTotalPomodoros()}🍅, {calcTotalPomodoroTime()}
+            {calcTotalPomodoros()} <TomatoIcon className={styles.inlineIcon} />,{" "}
+            {calcTotalPomodoroTime()}
           </p>
         </div>
         <div className={styles.entryTable}>
@@ -61,34 +70,14 @@ const EntryTable = (props) => {
   );
 };
 
-function EntryLog() {
-  const [entries, setEntries] = useState([]);
-
-  useEffect(() => {
-    (async function fetchEntries() {
-      try {
-        const res = await entryAPI.getAll();
-        setEntries(res.data);
-
-        // console.log(res.data[0].startTime);
-        // console.log(new Date(res.data[0].startTime));
-        // console.log(
-        //   new Date(res.data[0].startTime) - new Date(res.data[1].startTime)
-        // );
-        // console.log(new Date(res.data[0].startTime).getDate());
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
-
-  function sortEntries() {
-    if (entries.length === 0) return [[]];
+function EntryLog(props) {
+  function sortEntries(unsortedEntries) {
+    if (unsortedEntries.length === 0) return [[]];
 
     const returnEntries = [];
-    const dupEntries = [...entries];
-    dupEntries.sort((a, b) => new Date(b.startTime) > new Date(a.startTime));
+    const dupEntries = [...unsortedEntries];
 
+    dupEntries.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
     dupEntries.forEach((el) => {
       // Find and push into existing day array
       const a = new Date(el.startTime);
@@ -113,7 +102,7 @@ function EntryLog() {
 
   return (
     <div className={styles.entryLog}>
-      {sortEntries().map((tableData, index) => (
+      {sortEntries(props.entries).map((tableData, index) => (
         <EntryTable tableData={tableData} key={index} />
       ))}
     </div>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Timer.module.scss";
 
-import { entryAPI } from "../../../utils/API";
 import { formatSecToMinSec } from "../../../utils/times";
 
 import { ReactComponent as TomatoIcon } from "../../../assets/icons/tomato.svg";
@@ -20,27 +19,8 @@ const TYPES_DICT = {
   lb: 900000,
 };
 const FULL_DASH_ARRAY = 283;
-async function submitEntry(description, type, duration, startTime) {
-  // Submit entry to database
-  const entryData = {
-    description,
-    type,
-    duration,
-    startTime,
-  };
 
-  // Remove description field if not entered
-  if (
-    entryData.description === "" ||
-    entryData.description === undefined ||
-    entryData.description === null
-  ) {
-    delete entryData.description;
-  }
-  await entryAPI.create(entryData);
-}
-
-function Timer() {
+function Timer({ handleCreateEntry }) {
   const [countdown, setCountdown] = useState(1500000); // ms
   const [counting, setCounting] = useState(false);
   const [timerId, setTimerId] = useState(null);
@@ -63,7 +43,7 @@ function Timer() {
       setTimerId(id);
     } else if (countdown === 0 || countdown < 0) {
       // Submit finished timer
-      submitEntry(description, type, TYPES_DICT[type] / 1000, startTime);
+      handleCreateEntry(description, type, TYPES_DICT[type] / 1000, startTime);
 
       if (type === "p") {
         // If end of pomodoro timer
@@ -77,7 +57,7 @@ function Timer() {
       setCounting(false);
       setStartTime(null);
     }
-  }, [countdown, counting, description, type, startTime]);
+  }, [countdown, counting, description, type, startTime, handleCreateEntry]);
 
   function handleTypeChange(newType) {
     // Change type of timer if not counting
@@ -110,7 +90,7 @@ function Timer() {
 
     // Resets current timer and submits entry if non-zero
     if (TYPES_DICT[type] - countdown > 0) {
-      submitEntry(
+      handleCreateEntry(
         description,
         type,
         Math.floor((TYPES_DICT[type] - countdown) / 1000),
