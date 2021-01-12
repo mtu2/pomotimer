@@ -6,6 +6,7 @@ import {
   formatSecToHourMin,
   formatDateToDayMonth,
 } from "../../../utils/times";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactComponent as TomatoIcon } from "../../../assets/icons/tomato.svg";
 import { ReactComponent as CoffeeIcon } from "../../../assets/icons/coffee.svg";
 import { ReactComponent as CoffeePotIcon } from "../../../assets/icons/coffee-pot.svg";
@@ -21,19 +22,41 @@ const TYPES_STYLES_DICT = {
   lb: styles.longBreak,
 };
 const TYPES_ICONS_DICT = {
-  p: <TomatoIcon className={styles.inlineIcon} />,
-  sb: <CoffeeIcon className={styles.inlineIcon} />,
-  lb: <CoffeePotIcon className={styles.inlineIcon} />,
+  p: <TomatoIcon className={styles.inlineIcon} title="Pomodoro" />,
+  sb: <CoffeeIcon className={styles.inlineIcon} title="Short Break" />,
+  lb: <CoffeePotIcon className={styles.inlineIcon} title="Long Break" />,
 };
 
 const EntryRow = (props) => {
   return (
     <div className={`${styles.entryRow} ${TYPES_STYLES_DICT[props.type]}`}>
-      <p>
-        {TYPES_ICONS_DICT[props.type]}&nbsp;&nbsp;
+      <p className={styles.description}>
+        {TYPES_ICONS_DICT[props.type]}
         {props.description || TYPES_DEFAULT_DESCRIPTION_DICT[props.type]}
       </p>
       <p className={styles.duration}>{formatSecToMinSec2(props.duration)}</p>
+
+      <div className={styles.buttonContainer}>
+        <button
+          onClick={() => {
+            console.log("clicked");
+          }}
+          title="Edit description"
+          className={styles.editButton}
+        >
+          <FontAwesomeIcon icon={["fas", "edit"]} className={styles.icon} />
+        </button>
+        <button
+          onClick={() => props.handleDeleteEntry(props._id)}
+          title="Delete"
+          className={styles.deleteButton}
+        >
+          <FontAwesomeIcon
+            icon={["fas", "trash-alt"]}
+            className={styles.icon}
+          />
+        </button>
+      </div>
     </div>
   );
 };
@@ -56,13 +79,17 @@ const EntryTable = (props) => {
         <div className={styles.entryHead}>
           <p>{formatDateToDayMonth(props.tableData[0].startTime)}</p>
           <p>
-            {calcTotalPomodoros()} <TomatoIcon className={styles.inlineIcon} />,{" "}
+            {calcTotalPomodoros()} {TYPES_ICONS_DICT["p"]},{" "}
             {calcTotalPomodoroTime()}
           </p>
         </div>
         <div className={styles.entryTable}>
           {props.tableData.map((entryData, index) => (
-            <EntryRow key={index} {...entryData} />
+            <EntryRow
+              key={index}
+              {...entryData}
+              handleDeleteEntry={props.handleDeleteEntry}
+            />
           ))}
         </div>
       </>
@@ -103,7 +130,11 @@ function EntryLog(props) {
   return (
     <div className={styles.entryLog}>
       {sortEntries(props.entries).map((tableData, index) => (
-        <EntryTable tableData={tableData} key={index} />
+        <EntryTable
+          tableData={tableData}
+          key={index}
+          handleDeleteEntry={props.handleDeleteEntry}
+        />
       ))}
     </div>
   );

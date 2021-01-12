@@ -2,21 +2,27 @@ import React, { useState, useEffect } from "react";
 import styles from "./Timer.module.scss";
 
 import { formatSecToMinSec } from "../../../utils/times";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactComponent as TomatoIcon } from "../../../assets/icons/tomato.svg";
 import { ReactComponent as CoffeeIcon } from "../../../assets/icons/coffee.svg";
 import { ReactComponent as CoffeePotIcon } from "../../../assets/icons/coffee-pot.svg";
-import { ReactComponent as PlayIcon } from "../../../assets/icons/play.svg";
-import { ReactComponent as PauseIcon } from "../../../assets/icons/pause.svg";
-import { ReactComponent as StopIcon } from "../../../assets/icons/stop.svg";
-import { ReactComponent as ReplayIcon } from "../../../assets/icons/replay.svg";
 
 // BUG FIX: Bintang's answer https://stackoverflow.com/questions/39807957/countdown-timer-delays-when-tab-is-inactive
 
-const TYPES_DICT = {
+const TYPES_DURATION_DICT = {
   p: 1500000,
   sb: 300000,
   lb: 900000,
+};
+const TYPES_STYLES_DICT = {
+  p: styles.pomodoro,
+  sb: styles.shortBreak,
+  lb: styles.longBreak,
+};
+const TYPES_BG_COLOR_DICT = {
+  p: "#faf4f3",
+  sb: "#f3f9fa",
+  lb: "#F4F3FA",
 };
 const FULL_DASH_ARRAY = 283;
 
@@ -43,16 +49,21 @@ function Timer({ handleCreateEntry }) {
       setTimerId(id);
     } else if (countdown === 0 || countdown < 0) {
       // Submit finished timer
-      handleCreateEntry(description, type, TYPES_DICT[type] / 1000, startTime);
+      handleCreateEntry(
+        description,
+        type,
+        TYPES_DURATION_DICT[type] / 1000,
+        startTime
+      );
 
       if (type === "p") {
         // If end of pomodoro timer
         setType("sb");
-        setCountdown(TYPES_DICT["sb"]);
+        setCountdown(TYPES_DURATION_DICT["sb"]);
       } else if (type === "sb" || type === "lb") {
         // If end of short/long break timer
         setType("p");
-        setCountdown(TYPES_DICT["p"]);
+        setCountdown(TYPES_DURATION_DICT["p"]);
       }
       setCounting(false);
       setStartTime(null);
@@ -62,12 +73,16 @@ function Timer({ handleCreateEntry }) {
   function handleTypeChange(newType) {
     // Change type of timer if not counting
     if (type === newType || counting) return;
+
+    // Change bg color - seems a bit hackish
+    document.body.style.background = TYPES_BG_COLOR_DICT[newType];
+
     setType(newType);
-    setCountdown(TYPES_DICT[newType]);
+    setCountdown(TYPES_DURATION_DICT[newType]);
   }
   function handleStartStop() {
     // If just started counting set start time
-    if (countdown === TYPES_DICT[type]) {
+    if (countdown === TYPES_DURATION_DICT[type]) {
       setStartTime(Date.now());
     }
 
@@ -80,7 +95,7 @@ function Timer({ handleCreateEntry }) {
     if (counting) clearInterval(timerId);
 
     // Resets current timer
-    setCountdown(TYPES_DICT[type]);
+    setCountdown(TYPES_DURATION_DICT[type]);
     setCounting(false);
     setStartTime(null);
   }
@@ -89,15 +104,15 @@ function Timer({ handleCreateEntry }) {
     if (counting) clearInterval(timerId);
 
     // Resets current timer and submits entry if non-zero
-    if (TYPES_DICT[type] - countdown > 0) {
+    if (TYPES_DURATION_DICT[type] - countdown > 0) {
       handleCreateEntry(
         description,
         type,
-        Math.floor((TYPES_DICT[type] - countdown) / 1000),
+        Math.floor((TYPES_DURATION_DICT[type] - countdown) / 1000),
         startTime
       );
     }
-    setCountdown(TYPES_DICT[type]);
+    setCountdown(TYPES_DURATION_DICT[type]);
     setCounting(false);
     setStartTime(null);
   }
@@ -106,9 +121,9 @@ function Timer({ handleCreateEntry }) {
   }
 
   function calcStrokeDasharray() {
-    const timeFraction = countdown / TYPES_DICT[type];
+    const timeFraction = countdown / TYPES_DURATION_DICT[type];
     const adjustedTimeFraction =
-      timeFraction - (1 / TYPES_DICT[type]) * (1 - timeFraction);
+      timeFraction - (1 / TYPES_DURATION_DICT[type]) * (1 - timeFraction);
     return `${((1 - adjustedTimeFraction) * FULL_DASH_ARRAY).toFixed(
       0
     )} ${FULL_DASH_ARRAY}`;
@@ -126,7 +141,7 @@ function Timer({ handleCreateEntry }) {
           }`}
         >
           <TomatoIcon className={styles.icon} />
-          <p>{formatSecToMinSec(TYPES_DICT["p"] / 1000)}</p>
+          <p>{formatSecToMinSec(TYPES_DURATION_DICT["p"] / 1000)}</p>
         </button>
         <button
           onClick={() => handleTypeChange("sb")}
@@ -136,7 +151,7 @@ function Timer({ handleCreateEntry }) {
           }`}
         >
           <CoffeeIcon className={styles.icon} />
-          <p>{formatSecToMinSec(TYPES_DICT["sb"] / 1000)}</p>
+          <p>{formatSecToMinSec(TYPES_DURATION_DICT["sb"] / 1000)}</p>
         </button>
         <button
           onClick={() => handleTypeChange("lb")}
@@ -146,16 +161,17 @@ function Timer({ handleCreateEntry }) {
           }`}
         >
           <CoffeePotIcon className={styles.icon} />
-          <p>{formatSecToMinSec(TYPES_DICT["lb"] / 1000)}</p>
+          <p>{formatSecToMinSec(TYPES_DURATION_DICT["lb"] / 1000)}</p>
         </button>
       </div>
 
       {/* Timer */}
       <div className={styles.timerContainer}>
         <h2>{formatSecToMinSec(Math.floor(countdown / 1000))}</h2>
-        <p>/ {formatSecToMinSec(TYPES_DICT[type] / 1000)}</p>
-        <div className={styles.innerCircle} />
-        <div className={styles.outerCircle}>
+        <p>/ {formatSecToMinSec(TYPES_DURATION_DICT[type] / 1000)}</p>
+        <div className={`${styles.innerCircle} ${TYPES_STYLES_DICT[type]}`} />
+        <div className={styles.middleCircle} />
+        <div className={`${styles.outerCircle} ${TYPES_STYLES_DICT[type]}`}>
           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <g>
               <circle cx="50" cy="50" r="45" />
@@ -176,10 +192,10 @@ function Timer({ handleCreateEntry }) {
       {/* Control Timer Buttons - Reset, Cancel & Save, Start/Stop */}
       <div className={styles.controlsButtonContainer}>
         <button onClick={handleReset} title="Reset">
-          <ReplayIcon className={styles.icon} />
+          <FontAwesomeIcon icon={["fas", "redo"]} className={styles.icon} />
         </button>
         <button onClick={handleCancelSave} title="Cancel & Save">
-          <StopIcon className={styles.icon} />
+          <FontAwesomeIcon icon={["fas", "stop"]} className={styles.icon} />
         </button>
         <button
           onClick={handleStartStop}
@@ -187,9 +203,9 @@ function Timer({ handleCreateEntry }) {
           title="Start/Stop"
         >
           {counting ? (
-            <PauseIcon className={styles.icon} />
+            <FontAwesomeIcon icon={["fas", "pause"]} className={styles.icon} />
           ) : (
-            <PlayIcon className={styles.icon} />
+            <FontAwesomeIcon icon={["fas", "play"]} className={styles.icon} />
           )}
         </button>
       </div>

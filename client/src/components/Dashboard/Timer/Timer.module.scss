@@ -79,12 +79,16 @@
     .icon {
       width: 24px;
       height: 24px;
-      fill: rgba(0, 0, 0, 0.54);
+      color: rgba(0, 0, 0, 0.54);
     }
     &:hover {
       cursor: pointer;
       border: 1px solid rgba(25, 4, 69, 0.3);
       box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.1);
+
+      .icon {
+        color: rgba(0, 0, 0, 0.65);
+      }
     }
   }
   .startStopButton {
@@ -107,14 +111,14 @@
   height: 340px;
 
   h2 {
-    z-index: 200;
+    z-index: 300;
     margin-top: 10px; //center in circle (p height = 19px)
     font-weight: 700;
     font-size: 72px;
     color: white;
   }
   p {
-    z-index: 200;
+    z-index: 300;
     font-size: 16px;
     color: white;
   }
@@ -128,10 +132,38 @@
     align-items: center;
     justify-content: center;
 
-    background: linear-gradient(32.39deg, #f14248 12.86%, #f77056 91.72%);
     border-radius: 50%;
     mix-blend-mode: normal;
-    box-shadow: 0px 0px 4px 4px rgba(173, 42, 42, 0.25);
+
+    transition: background-color 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+
+    &.pomodoro {
+      background-color: #ec5054;
+      box-shadow: 0px 0px 4px 4px rgba(173, 42, 42, 0.25);
+    }
+    &.shortBreak {
+      background: #54a1a4;
+      box-shadow: 0px 0px 4px 4px rgba(84, 161, 164, 0.25);
+    }
+    &.longBreak {
+      background-color: #776aa8;
+      box-shadow: 0px 0px 4px 4px rgba(119, 106, 168, 0.25);
+    }
+  }
+  .middleCircle {
+    position: absolute;
+    z-index: 200;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+
+    background: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
   }
   .outerCircle {
     position: absolute;
@@ -148,7 +180,7 @@
       }
       circle {
         stroke-width: 7px;
-        stroke: rgba(241, 66, 72, 0.1);
+        transition: stroke 0.5s ease-in-out;
       }
       path {
         /* Just as thick as the original ring */
@@ -159,10 +191,31 @@
         transform-origin: center;
 
         /* One second aligns with the speed of the countdown timer */
-        transition: 1s linear all;
-
-        /* Allows the ring to change color when the color value updates */
+        transition: all 1s linear all;
+      }
+    }
+    &.pomodoro {
+      circle {
+        stroke: rgba(241, 66, 72, 0.1);
+      }
+      path {
         stroke: rgba(247, 112, 86, 0.6);
+      }
+    }
+    &.shortBreak {
+      circle {
+        stroke: #d1eaeb;
+      }
+      path {
+        stroke: #a5d3d5;
+      }
+    }
+    &.longBreak {
+      circle {
+        stroke: #d6d1eb;
+      }
+      path {
+        stroke: #b2a4e8;
       }
     }
   }

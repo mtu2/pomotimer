@@ -14,6 +14,7 @@ function Dashboard() {
       try {
         const res = await entryAPI.getAll();
         setEntries(res.data);
+        console.log("get got entries from database");
       } catch (err) {
         console.log(err);
       }
@@ -21,20 +22,15 @@ function Dashboard() {
   }, []);
 
   async function handleCreateEntry(description, type, duration, startTime) {
-    // Create entry data obj and remove description field if not entered
+    // Create entry data obj and remove description field if blank/whitespace
     const entryData = {
       description,
       type,
       duration,
       startTime,
     };
-    if (
-      entryData.description === "" ||
-      entryData.description === undefined ||
-      entryData.description === null
-    ) {
+    if (!entryData.description.replace(/\s/g, "").length)
       delete entryData.description;
-    }
 
     // Instant card add for frontend
     setEntries((prevEntries) => [...prevEntries, entryData]);
@@ -45,9 +41,18 @@ function Dashboard() {
     try {
       const res = await entryAPI.getAll();
       setEntries(res.data);
+      console.log("get got entries from database");
     } catch (err) {
       console.log(err);
     }
+  }
+
+  async function handleDeleteEntry(entryId) {
+    // Instant card delete for frontend
+    setEntries((prevEntries) => prevEntries.filter((el) => el._id !== entryId));
+
+    // Send to backend
+    await entryAPI.delete(entryId);
   }
 
   return (
@@ -57,7 +62,7 @@ function Dashboard() {
       </div>
       <div className={styles.dashboard}>
         <Timer handleCreateEntry={handleCreateEntry} />
-        <EntryLog entries={entries} />
+        <EntryLog entries={entries} handleDeleteEntry={handleDeleteEntry} />
       </div>
     </>
   );
