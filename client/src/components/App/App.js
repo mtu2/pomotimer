@@ -1,6 +1,8 @@
 import styles from "./App.module.scss";
 
-import { EntryContextProvider } from "../../context/EntryContext";
+import { ModalContextProvider } from "../../context/ModalContext/ModalContext";
+import { EntryContextProvider } from "../../context/EntryContext/EntryContext";
+import Modal from "../Modal/Modal";
 import Dashboard from "./../Dashboard/Dashboard";
 import Navbar from "./../Navbar/Navbar";
 
@@ -12,12 +14,15 @@ library.add(fas);
 
 function App() {
   return (
-    <EntryContextProvider>
-      <div className={styles.app}>
-        <Navbar />
-        <Dashboard />
-      </div>
-    </EntryContextProvider>
+    <ModalContextProvider>
+      <EntryContextProvider>
+        <div className={styles.app}>
+          <Modal />
+          <Navbar />
+          <Dashboard />
+        </div>
+      </EntryContextProvider>
+    </ModalContextProvider>
   );
 }
 

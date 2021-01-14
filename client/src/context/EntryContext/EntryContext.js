@@ -1,8 +1,16 @@
-import React, { useEffect, useReducer, createContext } from "react";
-import { entryAPI } from "../utils/API";
-import { GET_ENTRIES, ADD_ENTRY, DELETE_ENTRY } from "./types";
+import React, { useEffect, useReducer, useContext, createContext } from "react";
+import { entryAPI } from "../../utils/API";
+import {
+  GET_ENTRIES,
+  ADD_ENTRY,
+  DELETE_ENTRY,
+  UPDATE_ENTRY,
+} from "./entryTypes";
 
-export const EntryContext = createContext();
+// useEntryContext custom hook which will be used to use this context
+// rather than export EntryContext and having useContext(EntryContext) in other files
+const EntryContext = createContext();
+export const useEntryContext = () => useContext(EntryContext);
 
 // Reducers (could put in /context/reducers/index.js or entryReducers.js)
 const reducer = (state, action) => {
@@ -13,6 +21,11 @@ const reducer = (state, action) => {
       return [...state, action.payload];
     case DELETE_ENTRY:
       return state.filter((el) => el._id !== action.payload);
+    case UPDATE_ENTRY:
+      return state.map((el) => {
+        if (el._id !== action.payload.entryId) return el;
+        return action.payload.updatedEntry;
+      });
     default:
       throw new Error();
   }
@@ -81,8 +94,28 @@ export const EntryContextProvider = (props) => {
     }
   };
 
+  const updateEntry = async (entryId, updatedEntry) => {
+    try {
+      // Instant card update for frontend
+      dispatch({
+        type: UPDATE_ENTRY,
+        payload: {
+          entryId,
+          updatedEntry,
+        },
+      });
+
+      // Send to backend
+      await entryAPI.update(entryId, updatedEntry);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <EntryContext.Provider value={{ state, addEntry, deleteEntry }}>
+    <EntryContext.Provider
+      value={{ state, addEntry, deleteEntry, updateEntry }}
+    >
       {props.children}
     </EntryContext.Provider>
   );

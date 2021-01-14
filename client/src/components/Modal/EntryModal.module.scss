@@ -1,0 +1,21 @@
+.entryModal {
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  label {
+    margin-bottom: 6px;
+    font-weight: 600;
+
+    display: flex;
+    flex-direction: column;
+  }
+  .inlineIcon {
+    width: 16px;
+    height: 16px;
+  }
+}

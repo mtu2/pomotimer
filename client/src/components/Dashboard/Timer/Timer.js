@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Timer.module.scss";
 
-import { EntryContext } from "../../../context/EntryContext";
+import { useEntryContext } from "../../../context/EntryContext/EntryContext";
 import { formatSecToMinSec } from "../../../utils/times";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactComponent as TomatoIcon } from "../../../assets/icons/tomato.svg";
@@ -31,7 +31,7 @@ const FULL_DASH_ARRAY = 283;
 
 // function Timer({ handleCreateEntry })
 function Timer() {
-  const { addEntry } = useContext(EntryContext);
+  const { addEntry } = useEntryContext();
   const [countdown, setCountdown] = useState(1500000); // ms
   const [counting, setCounting] = useState(false);
   const [timerId, setTimerId] = useState(null);

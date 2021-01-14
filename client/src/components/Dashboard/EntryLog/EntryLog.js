@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import styles from "./EntryLog.module.scss";
 
-import { EntryContext } from "../../../context/EntryContext";
+import { useModalContext } from "../../../context/ModalContext/ModalContext";
+import { useEntryContext } from "../../../context/EntryContext/EntryContext";
 import {
   formatSecToMinSec2,
   formatSecToHourMin,
@@ -29,6 +30,8 @@ const TYPES_ICONS_DICT = {
 };
 
 const EntryRow = (props) => {
+  const { showModal } = useModalContext();
+
   return (
     <div className={`${styles.entryRow} ${TYPES_STYLES_DICT[props.type]}`}>
       <p className={styles.description}>
@@ -39,10 +42,8 @@ const EntryRow = (props) => {
 
       <div className={styles.buttonContainer}>
         <button
-          onClick={() => {
-            console.log("clicked");
-          }}
-          title="Edit description"
+          onClick={() => showModal("ENTRY", { ...props })}
+          title="Edit entry"
           className={styles.editButton}
         >
           <FontAwesomeIcon icon={["fas", "edit"]} className={styles.icon} />
@@ -99,7 +100,7 @@ const EntryTable = (props) => {
 };
 
 function EntryLog(props) {
-  const { state, deleteEntry } = useContext(EntryContext);
+  const { state, deleteEntry } = useEntryContext();
 
   function sortEntries(unsortedEntries) {
     if (unsortedEntries.length === 0) return [[]];
