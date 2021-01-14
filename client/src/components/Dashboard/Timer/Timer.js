@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./Timer.module.scss";
 
+import { EntryContext } from "../../../context/EntryContext";
 import { formatSecToMinSec } from "../../../utils/times";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactComponent as TomatoIcon } from "../../../assets/icons/tomato.svg";
@@ -28,7 +29,9 @@ const TYPES_BG_COLOR_DICT = {
 };
 const FULL_DASH_ARRAY = 283;
 
-function Timer({ handleCreateEntry }) {
+// function Timer({ handleCreateEntry })
+function Timer() {
+  const { addEntry } = useContext(EntryContext);
   const [countdown, setCountdown] = useState(1500000); // ms
   const [counting, setCounting] = useState(false);
   const [timerId, setTimerId] = useState(null);
@@ -51,12 +54,8 @@ function Timer({ handleCreateEntry }) {
       setTimerId(id);
     } else if (countdown === 0 || countdown < 0) {
       // Submit finished timer
-      handleCreateEntry(
-        description,
-        type,
-        TYPES_DURATION_DICT[type] / 1000,
-        startTime
-      );
+
+      addEntry(description, type, TYPES_DURATION_DICT[type] / 1000, startTime);
       new Audio(EndTimerAudio).play();
 
       if (type === "p") {
@@ -71,7 +70,7 @@ function Timer({ handleCreateEntry }) {
       setCounting(false);
       setStartTime(null);
     }
-  }, [countdown, counting, description, type, startTime, handleCreateEntry]);
+  }, [countdown, counting, description, type, startTime, addEntry]);
 
   function handleTypeChange(newType) {
     // Change type of timer if not counting
@@ -108,7 +107,7 @@ function Timer({ handleCreateEntry }) {
 
     // Resets current timer and submits entry if non-zero
     if (TYPES_DURATION_DICT[type] - countdown > 0) {
-      handleCreateEntry(
+      addEntry(
         description,
         type,
         Math.floor((TYPES_DURATION_DICT[type] - countdown) / 1000),

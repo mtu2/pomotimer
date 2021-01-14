@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./EntryLog.module.scss";
 
+import { EntryContext } from "../../../context/EntryContext";
 import {
   formatSecToMinSec2,
   formatSecToHourMin,
@@ -98,6 +99,8 @@ const EntryTable = (props) => {
 };
 
 function EntryLog(props) {
+  const { state, deleteEntry } = useContext(EntryContext);
+
   function sortEntries(unsortedEntries) {
     if (unsortedEntries.length === 0) return [[]];
 
@@ -129,11 +132,11 @@ function EntryLog(props) {
 
   return (
     <div className={styles.entryLog}>
-      {sortEntries(props.entries).map((tableData, index) => (
+      {sortEntries(state).map((tableData, index) => (
         <EntryTable
           tableData={tableData}
           key={index}
-          handleDeleteEntry={props.handleDeleteEntry}
+          handleDeleteEntry={(entryId) => deleteEntry(entryId)}
         />
       ))}
     </div>
