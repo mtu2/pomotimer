@@ -56,15 +56,10 @@ function Dashboard() {
   }
 
   return (
-    <>
-      <div className={styles.header}>
-        <h1>🌞 mtu-pomodoro</h1>
-      </div>
-      <div className={styles.dashboard}>
-        <Timer handleCreateEntry={handleCreateEntry} />
-        <EntryLog entries={entries} handleDeleteEntry={handleDeleteEntry} />
-      </div>
-    </>
+    <div className={styles.dashboard}>
+      <Timer handleCreateEntry={handleCreateEntry} />
+      <EntryLog entries={entries} handleDeleteEntry={handleDeleteEntry} />
+    </div>
   );
 }
 

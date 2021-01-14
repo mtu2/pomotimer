@@ -7,6 +7,8 @@ import { ReactComponent as TomatoIcon } from "../../../assets/icons/tomato.svg";
 import { ReactComponent as CoffeeIcon } from "../../../assets/icons/coffee.svg";
 import { ReactComponent as CoffeePotIcon } from "../../../assets/icons/coffee-pot.svg";
 
+import StartTimerAudio from "../../../assets/sounds/start-timer.mp3";
+import EndTimerAudio from "../../../assets/sounds/end-timer.mp3";
 // BUG FIX: Bintang's answer https://stackoverflow.com/questions/39807957/countdown-timer-delays-when-tab-is-inactive
 
 const TYPES_DURATION_DICT = {
@@ -55,6 +57,7 @@ function Timer({ handleCreateEntry }) {
         TYPES_DURATION_DICT[type] / 1000,
         startTime
       );
+      new Audio(EndTimerAudio).play();
 
       if (type === "p") {
         // If end of pomodoro timer
@@ -84,8 +87,8 @@ function Timer({ handleCreateEntry }) {
     // If just started counting set start time
     if (countdown === TYPES_DURATION_DICT[type]) {
       setStartTime(Date.now());
+      new Audio(StartTimerAudio).play();
     }
-
     // Starts/stops current timer
     if (counting) clearInterval(timerId);
     setCounting(!counting);
@@ -136,7 +139,7 @@ function Timer({ handleCreateEntry }) {
         <button
           onClick={() => handleTypeChange("p")}
           title="Pomodoro"
-          className={`${type === "p" ? styles.active : styles.inactive} ${
+          className={`${type === "p" && styles.active} ${
             styles.pomodoroButton
           }`}
         >
@@ -146,7 +149,7 @@ function Timer({ handleCreateEntry }) {
         <button
           onClick={() => handleTypeChange("sb")}
           title="Short Break"
-          className={`${type === "sb" ? styles.active : styles.inactive} ${
+          className={`${type === "sb" && styles.active} ${
             styles.shortBreakButton
           }`}
         >
@@ -156,7 +159,7 @@ function Timer({ handleCreateEntry }) {
         <button
           onClick={() => handleTypeChange("lb")}
           title="Long Break"
-          className={`${type === "lb" ? styles.active : styles.inactive} ${
+          className={`${type === "lb" && styles.active} ${
             styles.longBreakButton
           }`}
         >

@@ -1,4 +1,3 @@
-test
 [
     {
         "description": "Testing and debugging",

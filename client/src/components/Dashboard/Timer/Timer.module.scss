@@ -1,4 +1,27 @@
 .timer {
+  // For all buttons in timer
+  button {
+    margin: 0px 6px;
+    padding: 4px 12px;
+    border: none;
+    outline: none;
+
+    border: 1px solid rgba(25, 4, 69, 0.1);
+    box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.15);
+    border-radius: 33px;
+    transition: box-shadow 0.1s linear;
+
+    &:hover {
+      cursor: pointer;
+      border: 1px solid rgba(25, 4, 69, 0.3);
+      box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.25);
+
+      // Behaves like mousedown event
+      &:active {
+        box-shadow: inset 0px 0px 3px rgba(25, 4, 69, 0.3);
+      }
+    }
+  }
 }
 
 // Types Buttons - Pomodoro, SB, LB
@@ -11,14 +34,6 @@
     display: flex;
     align-items: flex-end;
 
-    margin: 0px 6px;
-    padding: 4px 12px;
-    border: none;
-    outline: none;
-    border: 1px solid rgba(25, 4, 69, 0.1);
-    box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.05);
-    border-radius: 33px;
-
     font-weight: 700;
     font-size: 18px;
     color: rgba(0, 0, 0, 0.54);
@@ -27,11 +42,6 @@
       width: 24px;
       height: 24px;
       margin-right: 8px;
-    }
-    &:hover {
-      cursor: pointer;
-      border: 1px solid rgba(25, 4, 69, 0.3);
-      box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.1);
     }
   }
   .pomodoroButton {
@@ -43,15 +53,9 @@
   .longBreakButton {
     background: #eceefa;
   }
-  // .active {
-  //   background: rgba(243, 79, 76, 0.4);
-  //   border: 1px solid rgba(25, 4, 69, 0.1);
-  //   box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.05);
-  //   color: white;
-  // }
-  // .inactive {
-  //   background: none;
-  // }
+  .active {
+    border: 1px solid rgba(25, 4, 69, 0.3);
+  }
 }
 
 // Control Timer Buttons - Reset, Cancel & Save, Start/Stop
@@ -68,13 +72,6 @@
     height: 64px;
 
     background: #f3f3f3;
-    margin: 0px 6px;
-    padding: 4px 12px;
-    border: none;
-    outline: none;
-    border: 1px solid rgba(25, 4, 69, 0.1);
-    box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.05);
-    border-radius: 33px;
 
     .icon {
       width: 24px;
@@ -82,10 +79,6 @@
       color: rgba(0, 0, 0, 0.54);
     }
     &:hover {
-      cursor: pointer;
-      border: 1px solid rgba(25, 4, 69, 0.3);
-      box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.1);
-
       .icon {
         color: rgba(0, 0, 0, 0.65);
       }
@@ -190,8 +183,10 @@
         transform: rotate(90deg);
         transform-origin: center;
 
-        /* One second aligns with the speed of the countdown timer */
-        transition: all 1s linear all;
+        /* 1s aligns with the speed of the countdown */
+        transition: all 1s linear;
+        /* Does not perfectly align with timer (i.e. timer doesn't make a full revolution when reaches 0)
+          Due to the setTimeout 250ms (?) */
       }
     }
     &.pomodoro {

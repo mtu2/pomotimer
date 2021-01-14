@@ -1,5 +1,6 @@
 import styles from "./App.module.scss";
 import Dashboard from "./../Dashboard/Dashboard";
+import Navbar from "./../Navbar/Navbar";
 
 // Import font awesome icons
 // Only solid icons for free users
@@ -10,6 +11,7 @@ library.add(fas);
 function App() {
   return (
     <div className={styles.app}>
+      <Navbar />
       <Dashboard />
     </div>
   );
