@@ -36,7 +36,10 @@ function ModalWrapper({ children, onClose }) {
   return (
     <div className={styles.background} onClick={closeModal} ref={modalRef}>
       <div className={styles.modalContainer}>
-        <button onClick={() => handleHideModal()}>
+        <button
+          className={styles.closeModalBtn}
+          onClick={() => handleHideModal()}
+        >
           <FontAwesomeIcon icon={["fas", "times"]} className={styles.icon} />
         </button>
         {children}

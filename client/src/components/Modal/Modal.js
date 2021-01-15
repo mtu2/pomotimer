@@ -3,10 +3,12 @@ import React from "react";
 import { useModalContext } from "../../context/ModalContext/ModalContext";
 import EntryModal from "./EntryModal";
 import SettingsModal from "./SettingsModal";
+import LoginModal from "./LoginModal";
 
 const MODALS = {
   ENTRY: EntryModal,
   SETTINGS: SettingsModal,
+  LOGIN: LoginModal,
 };
 
 function Modal() {

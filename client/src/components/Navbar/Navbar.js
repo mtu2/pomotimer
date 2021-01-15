@@ -22,9 +22,7 @@ function Navbar() {
           <FontAwesomeIcon
             icon={["fas", "user-circle"]}
             className={styles.icon}
-            onClick={() => {
-              console.log("clicked");
-            }}
+            onClick={() => showModal("LOGIN")}
           />
         </li>
       </ul>
