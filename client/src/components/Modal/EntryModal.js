@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./EntryModal.module.scss";
 
+import ModalWrapper from "./ModalWrapper/ModalWrapper";
 import { useEntryContext } from "../../context/EntryContext/EntryContext";
 import { ReactComponent as TomatoIcon } from "../../assets/icons/tomato.svg";
 import { ReactComponent as CoffeeIcon } from "../../assets/icons/coffee.svg";
@@ -25,7 +26,6 @@ const TYPES_ICONS_DICT = {
 // Custom hook
 function useFormInput(initialValue) {
   const [value, setValue] = useState(initialValue);
-
   const handleChange = (ev) => {
     setValue(ev.target.value);
   };
@@ -37,51 +37,59 @@ function useFormInput(initialValue) {
 }
 
 function EntryModal(props) {
-  // const { updateEntry } = useEntryContext();
+  const { updateEntry } = useEntryContext();
+  const description = useFormInput(props.description || "");
   const type = useFormInput(props.type);
-  const description = useFormInput(props.description);
-  const duration = useFormInput(props.duration || "");
-  const startTime = useFormInput(props.startTime);
+  const duration = useFormInput(props.duration);
+  const startTime = useFormInput(new Date(props.startTime));
 
-  function handleSubmit(ev) {
-    ev.preventDefault();
-    alert("Entry edited");
+  function handleOnClose() {
+    console.log("ENTRY MODAL CLOSED");
+    updateEntry(
+      props._id,
+      description.value,
+      type.value,
+      duration.value,
+      new Date(startTime.value)
+    );
   }
 
   return (
-    <form className={styles.entryModal} onSubmit={handleSubmit}>
-      <h2>Edit Entry</h2>
-      <label className={styles.type}>
-        Type:
-        <select value={type} {...type}>
-          <option value="p">
-            {TYPES_ICONS_DICT["p"]} {TYPES_DEFAULT_DESCRIPTION_DICT["p"]}
-          </option>
-          <option value="sb">
-            {TYPES_ICONS_DICT["sb"]} {TYPES_DEFAULT_DESCRIPTION_DICT["sb"]}
-          </option>
-          <option value="lb">
-            {TYPES_ICONS_DICT["lb"]} {TYPES_DEFAULT_DESCRIPTION_DICT["lb"]}
-          </option>
-        </select>
-      </label>
-      <label className={styles.description}>
-        Description:
-        <input
-          type="text"
-          placeholder="I'm focusing on..."
-          {...description}
-        ></input>
-      </label>
-      <label className={styles.duration}>
-        Duration:
-        <input type="number" {...duration}></input>
-      </label>
-      <label className={styles.startTime}>
-        Start Time:
-        <input type="text" {...startTime}></input>
-      </label>
-    </form>
+    <ModalWrapper onClose={handleOnClose}>
+      <form className={styles.entryModal}>
+        <h2>Edit Entry</h2>
+        <label className={styles.type}>
+          Type:
+          <select value={type} {...type}>
+            <option value="p">
+              {TYPES_ICONS_DICT["p"]} {TYPES_DEFAULT_DESCRIPTION_DICT["p"]}
+            </option>
+            <option value="sb">
+              {TYPES_ICONS_DICT["sb"]} {TYPES_DEFAULT_DESCRIPTION_DICT["sb"]}
+            </option>
+            <option value="lb">
+              {TYPES_ICONS_DICT["lb"]} {TYPES_DEFAULT_DESCRIPTION_DICT["lb"]}
+            </option>
+          </select>
+        </label>
+        <label className={styles.description}>
+          Description:
+          <input
+            type="text"
+            placeholder="I'm focusing on..."
+            {...description}
+          ></input>
+        </label>
+        <label className={styles.duration}>
+          Duration:
+          <input type="number" {...duration}></input>
+        </label>
+        <label className={styles.startTime}>
+          Start Time:
+          <input type="text" {...startTime}></input>
+        </label>
+      </form>
+    </ModalWrapper>
   );
 }
 

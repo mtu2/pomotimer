@@ -99,7 +99,7 @@ const EntryTable = (props) => {
   );
 };
 
-function EntryLog(props) {
+function EntryLog() {
   const { state, deleteEntry } = useEntryContext();
 
   function sortEntries(unsortedEntries) {

@@ -94,7 +94,24 @@ export const EntryContextProvider = (props) => {
     }
   };
 
-  const updateEntry = async (entryId, updatedEntry) => {
+  const updateEntry = async (
+    entryId,
+    description,
+    type,
+    duration,
+    startTime
+  ) => {
+    // Create entry data obj and remove description field if blank/whitespace
+    const updatedEntry = {
+      _id: entryId,
+      description,
+      type,
+      duration,
+      startTime,
+    }; // This obj goes straight to frontend - include _.id so that delete works
+    if (!updatedEntry.description.replace(/\s/g, "").length)
+      delete updatedEntry.description;
+
     try {
       // Instant card update for frontend
       dispatch({
