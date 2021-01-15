@@ -132,15 +132,15 @@
 
     &.pomodoro {
       background-color: #ec5054;
-      box-shadow: 0px 0px 4px 4px rgba(173, 42, 42, 0.25);
+      box-shadow: 0px 0px 4px 4px rgba(173, 42, 42, 0.4);
     }
     &.shortBreak {
       background: #54a1a4;
-      box-shadow: 0px 0px 4px 4px rgba(84, 161, 164, 0.25);
+      box-shadow: 0px 0px 4px 4px rgba(84, 161, 164, 0.4);
     }
     &.longBreak {
       background-color: #776aa8;
-      box-shadow: 0px 0px 4px 4px rgba(119, 106, 168, 0.25);
+      box-shadow: 0px 0px 4px 4px rgba(119, 106, 168, 0.4);
     }
   }
   .middleCircle {
