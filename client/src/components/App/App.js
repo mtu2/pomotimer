@@ -2,6 +2,7 @@ import styles from "./App.module.scss";
 
 import { ModalContextProvider } from "../../context/ModalContext/ModalContext";
 import { EntryContextProvider } from "../../context/EntryContext/EntryContext";
+import { AuthContextProvider } from "../../context/AuthContext/AuthContext";
 import Modal from "../Modal/Modal";
 import Dashboard from "./../Dashboard/Dashboard";
 import Navbar from "./../Navbar/Navbar";
@@ -18,11 +19,13 @@ function App() {
   return (
     <ModalContextProvider>
       <EntryContextProvider>
-        <div className={styles.app}>
-          <Modal />
-          <Navbar />
-          <Dashboard />
-        </div>
+        <AuthContextProvider>
+          <div className={styles.app}>
+            <Modal />
+            <Navbar />
+            <Dashboard />
+          </div>
+        </AuthContextProvider>
       </EntryContextProvider>
     </ModalContextProvider>
   );

@@ -1,30 +1,22 @@
 const router = require("express").Router();
-const passport = require("passport");
+const authController = require("../controllers/authController");
 
 // @desc    Auth with Google
 // @route   GET /auth/google
-router.get(
-  "/auth/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
-  })
-);
+router.get("/auth/google", authController.googleAuth);
 
 // @desc    Google auth callback
 // @route   GET /auth/google/callback
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    successRedirect: "/",
-    failureRedirect: "/",
-  })
-);
+router.get("/auth/google/callback", authController.googleAuthCallback);
 
 // @desc    Logout user
-// @route   /auth/logout
-router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/");
-});
+// @route   /api/logout
+router.get("/api/logout", authController.logout);
+
+// @desc    Current user data
+// @route   /api/user
+router.get("/api/user", authController.getUser);
+
+// TODO: fix currently mixing /api and /auth routes in this file
 
 module.exports = router;

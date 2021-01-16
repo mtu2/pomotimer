@@ -15,8 +15,8 @@ const reducer = (state, action) => {
       };
     case SHOW:
       return {
-        modalType: action.modalType,
-        modalProps: action.modalProps,
+        modalType: action.payload.modalType,
+        modalProps: action.payload.modalProps,
       };
     default:
       throw new Error();
@@ -35,8 +35,7 @@ export const ModalContextProvider = (props) => {
   const showModal = (showModalType, showModalProps) => {
     dispatch({
       type: SHOW,
-      modalType: showModalType,
-      modalProps: showModalProps,
+      payload: { modalType: showModalType, modalProps: showModalProps },
     });
   };
 

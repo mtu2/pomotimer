@@ -9,3 +9,7 @@ export const entryAPI = {
   update: (id, entryData) => axios.put(`/api/entries/${id}`, entryData),
   delete: (id) => axios.delete(`/api/entries/${id}`),
 };
+
+export const authAPI = {
+  getUser: () => axios.get("/api/user"),
+};
