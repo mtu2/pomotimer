@@ -1,4 +1,6 @@
 import React, { useEffect, useReducer, useContext, createContext } from "react";
+
+import { useAuthContext } from "../AuthContext/AuthContext";
 import { entryAPI } from "../../utils/API";
 import {
   GET_ENTRIES,
@@ -36,12 +38,18 @@ const initialState = [];
 
 export const EntryContextProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { isAuthenticated, user } = useAuthContext();
 
   useEffect(() => {
-    getEntries();
-  }, []);
+    if (isAuthenticated) {
+      dispatch({
+        type: GET_ENTRIES,
+        payload: user.entries,
+      });
+    }
+  }, [isAuthenticated, user]);
 
-  // Actions (could put in /context/actions/index.js or entryActions.js ???)
+  // // Actions (could put in /context/actions/index.js or entryActions.js ???)
   const getEntries = async () => {
     try {
       const res = await entryAPI.getAll();
@@ -72,8 +80,10 @@ export const EntryContextProvider = (props) => {
       });
 
       // Send to backend and update any changes (e.g. entry ._id)
-      await entryAPI.create(entry);
-      getEntries();
+      if (isAuthenticated) {
+        await entryAPI.create(entry);
+        getEntries();
+      }
     } catch (err) {
       console.log(err);
     }
@@ -88,7 +98,9 @@ export const EntryContextProvider = (props) => {
       });
 
       // Send to backend
-      await entryAPI.delete(entryId);
+      if (isAuthenticated) {
+        await entryAPI.delete(entryId);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -123,7 +135,9 @@ export const EntryContextProvider = (props) => {
       });
 
       // Send to backend
-      await entryAPI.update(entryId, updatedEntry);
+      if (isAuthenticated) {
+        await entryAPI.update(entryId, updatedEntry);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -131,7 +145,7 @@ export const EntryContextProvider = (props) => {
 
   return (
     <EntryContext.Provider
-      value={{ state, addEntry, deleteEntry, updateEntry }}
+      value={{ state, getEntries, addEntry, deleteEntry, updateEntry }}
     >
       {props.children}
     </EntryContext.Provider>

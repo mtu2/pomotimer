@@ -28,7 +28,6 @@ export const AuthContextProvider = (props) => {
   const { isAuthenticated, user } = state;
 
   useEffect(() => {
-    console.log("AuthContextProvider: getUser");
     getUser();
   }, []);
 
@@ -39,13 +38,14 @@ export const AuthContextProvider = (props) => {
         type: GET_USER,
         payload: { isAuthenticated: Boolean(res.data), user: res.data },
       });
+      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, getUser }}>
+    <AuthContext.Provider value={{ isAuthenticated, user }}>
       {props.children}
     </AuthContext.Provider>
   );

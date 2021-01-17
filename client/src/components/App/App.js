@@ -18,15 +18,15 @@ library.add(fab, fas);
 function App() {
   return (
     <ModalContextProvider>
-      <EntryContextProvider>
-        <AuthContextProvider>
+      <AuthContextProvider>
+        <EntryContextProvider>
           <div className={styles.app}>
             <Modal />
             <Navbar />
             <Dashboard />
           </div>
-        </AuthContextProvider>
-      </EntryContextProvider>
+        </EntryContextProvider>
+      </AuthContextProvider>
     </ModalContextProvider>
   );
 }

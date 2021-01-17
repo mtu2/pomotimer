@@ -1,17 +1,18 @@
 const router = require("express").Router();
 const entryController = require("../controllers/entryController");
+const { ensureAuth } = require("../middleware/auth");
 
 router
   .route("/")
-  .get(entryController.findAll)
-  .delete(entryController.deleteAll)
-  .post(entryController.create);
+  .get(ensureAuth, entryController.findAll)
+  .delete(ensureAuth, entryController.deleteAll)
+  .post(ensureAuth, entryController.create);
 
 router
-  .route("/:id")
-  .get(entryController.findById)
-  .put(entryController.update)
-  .delete(entryController.delete);
+  .route("/:entryId")
+  .get(ensureAuth, entryController.findById)
+  .put(ensureAuth, entryController.update)
+  .delete(ensureAuth, entryController.delete);
 
 router.route("/dev").post(entryController.createMultiple);
 

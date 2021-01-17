@@ -1,9 +1,10 @@
-const Entry = require("../models/Entry");
+const User = require("../models/User");
 
 module.exports = {
   findAll: async function (req, res) {
     try {
-      const entries = await Entry.find();
+      const user = await User.findById(req.user._id);
+      const entries = user.entries;
       res.json(entries);
     } catch (err) {
       res.status(400).json("Error: " + err);
@@ -11,8 +12,10 @@ module.exports = {
   },
   deleteAll: async function (req, res) {
     try {
-      await Entry.deleteMany();
-      res.json("All entries deleted.");
+      const user = await User.findById(req.user._id);
+      user.entries = [];
+      await user.save();
+      res.json(user); // send updated user
     } catch (err) {
       res.status(400).json("Error: " + err);
     }
@@ -23,23 +26,26 @@ module.exports = {
     const duration = Number(req.body.duration);
     const startTime = Date(req.body.startTime);
 
-    const newEntry = new Entry({
+    const newEntry = {
       description,
       type,
       duration,
       startTime,
-    });
+    };
 
     try {
-      await newEntry.save();
-      res.json("Entry added.");
+      const user = await User.findById(req.user._id);
+      user.entries.push(newEntry);
+      await user.save();
+      res.json(user); // send updated user
     } catch (err) {
       res.status(400).json("Error: " + err);
     }
   },
   findById: async function (req, res) {
     try {
-      const entry = await Entry.findById(req.params.id);
+      const user = await User.findById(req.user._id);
+      const entry = user.entries.id(req.params.entryId);
       res.json(entry);
     } catch (err) {
       res.status(400).json("Error: " + err);
@@ -47,24 +53,27 @@ module.exports = {
   },
   update: async function (req, res) {
     try {
-      await Entry.updateOne(
-        { _id: req.params.id },
-        {
-          description: req.body.description,
-          type: req.body.type,
-          duration: Number(req.body.duration),
-          startTime: Date(req.body.startTime),
-        }
-      );
-      res.json("Entry updated.");
+      const user = await User.findById(req.user._id);
+      const entry = user.entries.id(req.params.entryId);
+      entry.set({
+        description: req.body.description,
+        type: req.body.type,
+        duration: Number(req.body.duration),
+        startTime: Date(req.body.startTime),
+      });
+      await user.save();
+      res.json(user); // send updated user
     } catch (err) {
       res.status(400).json("Error: " + err);
     }
   },
   delete: async function (req, res) {
     try {
-      await Entry.deleteOne({ _id: req.params.id });
-      res.json("Entry deleted.");
+      const user = await User.findById(req.user._id);
+      const entry = user.entries.id(req.params.entryId);
+      entry.remove();
+      await user.save();
+      res.json(user); // send updated user
     } catch (err) {
       res.status(400).json("Error: " + err);
     }
@@ -73,8 +82,12 @@ module.exports = {
   // dev
   createMultiple: async function (req, res) {
     try {
-      await Entry.insertMany(req.body.entries);
-      res.json("Entries added.");
+      const user = await User.findById(req.user._id);
+      req.body.entries.forEach((entry) => {
+        user.entries.push(entry);
+      });
+      await user.save();
+      res.json(user); // send updated user
     } catch (err) {
       res.status(400).json("Error: " + err);
     }
