@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./LoginModal.module.scss";
 
 import { useAuthContext } from "../../context/AuthContext/AuthContext";
+import { authAPI } from "../../utils/API";
 import ModalWrapper from "./ModalWrapper/ModalWrapper";
 import googleLoginBtn from "../../assets/buttons/btn_google_signin_light_normal_web@2x.png";
 
@@ -31,7 +32,8 @@ function LoginModal() {
             <p>{user.image}</p>
           </>
         )}
-        <a href="/api/logout">LOG OUT</a>
+        <a href="/api/user/logout">Log out</a>
+        <a href="/api/user/delete">Delete account</a>
       </div>
     </ModalWrapper>
   );

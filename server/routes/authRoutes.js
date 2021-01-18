@@ -11,11 +11,15 @@ router.get("/auth/google/callback", authController.googleAuthCallback);
 
 // @desc    Logout user
 // @route   /api/logout
-router.get("/api/logout", authController.logout);
+router.get("/api/user/logout", authController.logout);
 
 // @desc    Current user data
 // @route   /api/user
 router.get("/api/user", authController.getUser);
+
+// @desc    Delete user
+// @route   /api/user
+router.get("/api/user/delete", authController.deleteUser);
 
 // TODO: fix currently mixing /api and /auth routes in this file
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer, useContext, createContext } from "react";
+import { toast } from "react-hot-toast";
 import { authAPI } from "../../utils/API";
 import { GET_USER } from "./authTypes";
 
@@ -38,7 +39,14 @@ export const AuthContextProvider = (props) => {
         type: GET_USER,
         payload: { isAuthenticated: Boolean(res.data), user: res.data },
       });
-      console.log(res.data);
+
+      // If authenticated and account created in last 10 seconds
+      if (
+        Boolean(res.data) &&
+        Date.now() - new Date(res.data.createdAt) < 10000
+      ) {
+        toast.success("Account created!");
+      }
     } catch (err) {
       console.log(err);
     }

@@ -1,4 +1,5 @@
 const passport = require("passport");
+const User = require("../models/User");
 
 module.exports = {
   googleAuth: passport.authenticate("google", {
@@ -8,11 +9,15 @@ module.exports = {
     successRedirect: "/",
     failureRedirect: "/",
   }),
-  logout: (req, res) => {
+  logout: function (req, res) {
     req.logout();
     res.redirect("/");
   },
-  getUser: (req, res) => {
+  getUser: function (req, res) {
     res.send(req.user);
+  },
+  deleteUser: async function (req, res) {
+    await User.deleteOne({ _id: req.user._id });
+    res.redirect("/");
   },
 };
