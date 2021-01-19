@@ -85,3 +85,16 @@ export function formatDateToDayMonth(date) {
     MONTHS_SHORT[dateObj.getMonth()]
   }`;
 }
+
+export function formatDateToHourMin(date) {
+  // e.g. Date object --> 1:54pm
+  // e.g. Date object --> 10:30am
+  const dateObj = new Date(date);
+  const hours = dateObj.getHours();
+  const minutes = dateObj.getMinutes();
+  const minutesAdj = minutes < 10 ? "0" + minutes : minutes.toString();
+
+  return hours > 12
+    ? `${hours - 12}:${minutesAdj}pm`
+    : `${hours}:${minutesAdj}am`;
+}

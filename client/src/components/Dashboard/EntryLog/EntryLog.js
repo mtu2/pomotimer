@@ -7,6 +7,7 @@ import {
   formatSecToMinSec2,
   formatSecToHourMin,
   formatDateToDayMonth,
+  formatDateToHourMin,
 } from "../../../utils/times";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -28,13 +29,19 @@ const TYPES_EMOJIS_DICT = {
 
 const EntryRow = (props) => {
   const { showModal } = useModalContext();
+  const isOptimistic = props._id < 0;
 
   return (
-    <div className={`${styles.entryRow} ${TYPES_STYLES_DICT[props.type]}`}>
+    <div
+      className={`${styles.entryRow} ${TYPES_STYLES_DICT[props.type]} ${
+        isOptimistic && styles.optimistic
+      }`}
+    >
       <p className={styles.description}>
         {TYPES_EMOJIS_DICT[props.type]} &nbsp;
         {props.description || TYPES_DEFAULT_DESCRIPTION_DICT[props.type]}
       </p>
+      <p className={styles.startTime}>{formatDateToHourMin(props.startTime)}</p>
       <p className={styles.duration}>{formatSecToMinSec2(props.duration)}</p>
 
       <div className={styles.buttonContainer}>
@@ -42,6 +49,7 @@ const EntryRow = (props) => {
           onClick={() => showModal("ENTRY", { ...props })}
           title="Edit entry"
           className={styles.editButton}
+          disabled={isOptimistic}
         >
           <FontAwesomeIcon icon={["fas", "edit"]} className={styles.icon} />
         </button>
@@ -49,6 +57,7 @@ const EntryRow = (props) => {
           onClick={() => props.handleDeleteEntry(props._id)}
           title="Delete"
           className={styles.deleteButton}
+          disabled={isOptimistic}
         >
           <FontAwesomeIcon
             icon={["fas", "trash-alt"]}
@@ -130,13 +139,19 @@ function EntryLog() {
 
   return (
     <div className={styles.entryLog}>
-      {sortEntries(state).map((tableData, index) => (
-        <EntryTable
-          tableData={tableData}
-          key={index}
-          handleDeleteEntry={(entryId) => deleteEntry(entryId)}
-        />
-      ))}
+      {state.length > 0 ? (
+        sortEntries(state).map((tableData, index) => (
+          <EntryTable
+            tableData={tableData}
+            key={index}
+            handleDeleteEntry={(entryId) => deleteEntry(entryId)}
+          />
+        ))
+      ) : (
+        <p className={styles.noEntriesText}>
+          There are currently no entries...
+        </p>
+      )}
     </div>
   );
 }

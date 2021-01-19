@@ -5,6 +5,10 @@
 
   width: 340px;
   margin-top: 48px;
+
+  .noEntriesText {
+    display: none;
+  }
 }
 
 // Entry Tables
@@ -32,9 +36,8 @@
 // Entry Row
 .entryRow {
   position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 60px;
 
   height: 28px;
   padding: 2px 8px;
@@ -47,8 +50,39 @@
   p {
     line-height: 24px;
   }
+  .description {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .startTime {
+    display: none;
+    text-align: right;
+  }
   .duration {
     font-weight: 700;
+    text-align: right;
+  }
+  &.optimistic {
+    color: rgba(0, 0, 0, 0.3);
+  }
+  &.pomodoro {
+    background: rgba(249, 98, 98, 0.2);
+    &.optimistic {
+      background: rgba(249, 98, 98, 0.1);
+    }
+  }
+  &.shortBreak {
+    background: rgba(91, 184, 165, 0.2);
+    &.optimistic {
+      background: rgba(91, 184, 165, 0.1);
+    }
+  }
+  &.longBreak {
+    background: rgba(34, 153, 212, 0.2);
+    &.optimistic {
+      background: rgba(34, 153, 212, 0.1);
+    }
   }
   &:hover {
     border: 1px solid rgba(25, 4, 69, 0.3);
@@ -104,12 +138,54 @@
     visibility: visible;
   }
 }
-.pomodoro {
-  background: rgba(249, 98, 98, 0.2);
+
+// Desktop breakpoint - side-by-side timer and log
+@media screen and (min-width: 1024px) {
+  .entryLog {
+    width: 40%;
+    max-width: 600px;
+    height: 564px; // height of timer
+
+    margin-left: 10%;
+    margin-top: 0px;
+    padding: 12px 24px;
+
+    border: 1px solid rgba(25, 4, 69, 0.1);
+    border-radius: 16px;
+
+    overflow-y: auto; /* add vertical scrollbar */
+
+    .noEntriesText {
+      display: block;
+      margin: 12px;
+      color: #999;
+    }
+
+    /* Styling for scrollbar - from Huntr*/
+    &::-webkit-scrollbar {
+      height: 18px;
+      width: 18px;
+      background-color: rgba(226, 226, 226, 0.6);
+    }
+    &::-webkit-scrollbar-thumb {
+      border: 4px solid transparent;
+      box-shadow: inset 0 0 10px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 100px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      box-shadow: inset 0 0 10px 10px rgba(0, 0, 0, 0.2);
+    }
+  }
 }
-.shortBreak {
-  background: rgba(91, 184, 165, 0.2);
-}
-.longBreak {
-  background: rgba(34, 153, 212, 0.2);
+
+// Larger desktop breakpoint - start time shown in log
+@media screen and (min-width: 1200px) {
+  .entryRow {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 72px 60px;
+    .startTime {
+      display: block;
+    }
+  }
 }

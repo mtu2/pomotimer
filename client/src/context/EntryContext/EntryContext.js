@@ -73,16 +73,23 @@ export const EntryContextProvider = (props) => {
     if (!entry.description.replace(/\s/g, "").length) delete entry.description;
 
     try {
-      // Instant card add for frontend
+      // Instant card add for frontend, use -ve temp id for optimistic ui if signed in
+      const tempId = isAuthenticated ? -(state.length + 1) : state.length + 1;
       dispatch({
         type: ADD_ENTRY,
-        payload: entry,
+        payload: { ...entry, _id: tempId },
       });
 
-      // Send to backend and update any changes (e.g. entry ._id)
+      // Send to backend and update ._id
       if (isAuthenticated) {
-        await entryAPI.create(entry);
-        getEntries();
+        const res = await entryAPI.create(entry);
+        dispatch({
+          type: UPDATE_ENTRY,
+          payload: {
+            entryId: tempId,
+            updatedEntry: res.data,
+          },
+        });
       }
     } catch (err) {
       console.log(err);

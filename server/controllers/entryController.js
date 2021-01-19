@@ -37,7 +37,7 @@ module.exports = {
       const user = await User.findById(req.user._id);
       user.entries.push(newEntry);
       await user.save();
-      res.json(user); // send updated user
+      res.json(user.entries[user.entries.length - 1]); // send created entry
     } catch (err) {
       res.status(400).json("Error: " + err);
     }
@@ -62,7 +62,7 @@ module.exports = {
         startTime: Date(req.body.startTime),
       });
       await user.save();
-      res.json(user); // send updated user
+      res.json(user.entries.id(req.params.entryId)); // send updated entry
     } catch (err) {
       res.status(400).json("Error: " + err);
     }
@@ -73,7 +73,7 @@ module.exports = {
       const entry = user.entries.id(req.params.entryId);
       entry.remove();
       await user.save();
-      res.json(user); // send updated user
+      res.json(user.entries); // send updated entries
     } catch (err) {
       res.status(400).json("Error: " + err);
     }
@@ -82,12 +82,13 @@ module.exports = {
   // dev
   createMultiple: async function (req, res) {
     try {
-      const user = await User.findById(req.user._id);
+      // req.body._id for dev
+      const user = await User.findById(req.body._id);
       req.body.entries.forEach((entry) => {
         user.entries.push(entry);
       });
       await user.save();
-      res.json(user); // send updated user
+      res.json(user.entries); // send updated entries
     } catch (err) {
       res.status(400).json("Error: " + err);
     }
