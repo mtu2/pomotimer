@@ -9,9 +9,6 @@ import {
   formatDateToDayMonth,
 } from "../../../utils/times";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ReactComponent as TomatoIcon } from "../../../assets/icons/tomato.svg";
-import { ReactComponent as CoffeeIcon } from "../../../assets/icons/coffee.svg";
-import { ReactComponent as CoffeePotIcon } from "../../../assets/icons/coffee-pot.svg";
 
 const TYPES_DEFAULT_DESCRIPTION_DICT = {
   p: "Pomodoro",
@@ -23,10 +20,10 @@ const TYPES_STYLES_DICT = {
   sb: styles.shortBreak,
   lb: styles.longBreak,
 };
-const TYPES_ICONS_DICT = {
-  p: <TomatoIcon className={styles.inlineIcon} title="Pomodoro" />,
-  sb: <CoffeeIcon className={styles.inlineIcon} title="Short Break" />,
-  lb: <CoffeePotIcon className={styles.inlineIcon} title="Long Break" />,
+const TYPES_EMOJIS_DICT = {
+  p: "🍅",
+  sb: "☕",
+  lb: "🍺",
 };
 
 const EntryRow = (props) => {
@@ -35,7 +32,7 @@ const EntryRow = (props) => {
   return (
     <div className={`${styles.entryRow} ${TYPES_STYLES_DICT[props.type]}`}>
       <p className={styles.description}>
-        {TYPES_ICONS_DICT[props.type]}
+        {TYPES_EMOJIS_DICT[props.type]} &nbsp;
         {props.description || TYPES_DEFAULT_DESCRIPTION_DICT[props.type]}
       </p>
       <p className={styles.duration}>{formatSecToMinSec2(props.duration)}</p>
@@ -81,7 +78,7 @@ const EntryTable = (props) => {
         <div className={styles.entryHead}>
           <p>{formatDateToDayMonth(props.tableData[0].startTime)}</p>
           <p>
-            {calcTotalPomodoros()} {TYPES_ICONS_DICT["p"]},{" "}
+            {calcTotalPomodoros()} {TYPES_EMOJIS_DICT["p"]},{" "}
             {calcTotalPomodoroTime()}
           </p>
         </div>

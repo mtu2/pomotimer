@@ -5,21 +5,10 @@
     padding: 4px 12px;
     border: none;
     outline: none;
-
-    border: 1px solid rgba(25, 4, 69, 0.1);
-    box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.15);
     border-radius: 33px;
-    transition: box-shadow 0.1s linear;
 
     &:hover {
       cursor: pointer;
-      border: 1px solid rgba(25, 4, 69, 0.3);
-      box-shadow: 0px 3px 7px rgba(25, 4, 69, 0.25);
-
-      // Behaves like mousedown event
-      &:active {
-        box-shadow: inset 0px 0px 3px rgba(25, 4, 69, 0.3);
-      }
     }
   }
 }
@@ -32,29 +21,53 @@
 
   button {
     display: flex;
-    align-items: flex-end;
+    justify-content: center;
 
     font-weight: 700;
     font-size: 18px;
-    color: rgba(0, 0, 0, 0.54);
+    color: rgba(0, 0, 0, 0.5);
+    width: 100px;
+
+    transition: color 0.1s linear, background-color 0.1s linear;
 
     .icon {
       width: 24px;
       height: 24px;
       margin-right: 8px;
     }
+    &:hover {
+      color: rgba(0, 0, 0, 0.9);
+    }
   }
   .pomodoroButton {
-    background: #f9d3d3;
+    background-color: rgba(249, 98, 98, 0.5);
+    &:hover {
+      background-color: rgba(249, 98, 98, 0.7);
+    }
+    &.active {
+      color: rgba(0, 0, 0, 0.9);
+      background-color: rgba(249, 98, 98, 0.7);
+    }
   }
   .shortBreakButton {
-    background: #e8f1f3;
+    background-color: rgba(91, 184, 165, 0.5);
+    &:hover {
+      background-color: rgba(91, 184, 165, 0.7);
+    }
+    &.active {
+      color: rgba(0, 0, 0, 0.9);
+      background-color: rgba(91, 184, 165, 0.7);
+    }
   }
   .longBreakButton {
-    background: #eceefa;
-  }
-  .active {
-    border: 1px solid rgba(25, 4, 69, 0.3);
+    background-color: rgba(34, 153, 212, 0.5);
+    &:hover {
+      background-color: rgba(34, 153, 212, 0.7);
+    }
+    &.active {
+      color: rgba(0, 0, 0, 0.9);
+      background-color: rgba(34, 153, 212, 0.7);
+    }
   }
 }
 
@@ -71,7 +84,7 @@
     width: 64px;
     height: 64px;
 
-    background: #f3f3f3;
+    background-color: rgba(226, 226, 226, 0.6);
 
     .icon {
       width: 24px;
@@ -86,7 +99,7 @@
   }
   .startStopButton {
     width: 176px;
-    background: #dbf495;
+    background-color: #d2f07b;
   }
 }
 
@@ -105,8 +118,8 @@
 
   h2 {
     z-index: 300;
-    margin-top: 10px; //center in circle (p height = 19px)
-    font-weight: 700;
+    margin-top: 8px; //center in circle (p height = 19px)
+    font-weight: 500;
     font-size: 72px;
     color: white;
   }
@@ -117,7 +130,7 @@
   }
   .innerCircle {
     position: absolute;
-    z-index: 100;
+    z-index: 200;
 
     width: 300px;
     height: 300px;
@@ -128,35 +141,17 @@
     border-radius: 50%;
     mix-blend-mode: normal;
 
-    transition: background-color 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+    transition: background-color 0.5s ease-in-out;
 
     &.pomodoro {
-      background-color: #ec5054;
-      box-shadow: 0px 0px 4px 4px rgba(173, 42, 42, 0.4);
+      background-color: #f96262;
     }
     &.shortBreak {
-      background: #54a1a4;
-      box-shadow: 0px 0px 4px 4px rgba(84, 161, 164, 0.4);
+      background-color: #5bb8a5;
     }
     &.longBreak {
-      background-color: #776aa8;
-      box-shadow: 0px 0px 4px 4px rgba(119, 106, 168, 0.4);
+      background-color: #2299d4;
     }
-  }
-  .middleCircle {
-    position: absolute;
-    z-index: 200;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 260px;
-    height: 260px;
-    border-radius: 50%;
-
-    background: none;
-    border: 2px solid rgba(255, 255, 255, 0.2);
   }
   .outerCircle {
     position: absolute;
@@ -191,26 +186,26 @@
     }
     &.pomodoro {
       circle {
-        stroke: rgba(241, 66, 72, 0.1);
+        stroke: rgba(249, 98, 98, 0.2);
       }
       path {
-        stroke: rgba(247, 112, 86, 0.6);
+        stroke: rgba(249, 98, 98, 0.5);
       }
     }
     &.shortBreak {
       circle {
-        stroke: #d1eaeb;
+        stroke: rgba(91, 184, 165, 0.2);
       }
       path {
-        stroke: #a5d3d5;
+        stroke: rgba(91, 184, 165, 0.5);
       }
     }
     &.longBreak {
       circle {
-        stroke: #d6d1eb;
+        stroke: rgba(34, 153, 212, 0.2);
       }
       path {
-        stroke: #b2a4e8;
+        stroke: rgba(34, 153, 212, 0.5);
       }
     }
   }

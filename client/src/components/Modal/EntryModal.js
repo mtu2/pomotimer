@@ -3,9 +3,6 @@ import styles from "./EntryModal.module.scss";
 
 import ModalWrapper from "./ModalWrapper/ModalWrapper";
 import { useEntryContext } from "../../context/EntryContext/EntryContext";
-import { ReactComponent as TomatoIcon } from "../../assets/icons/tomato.svg";
-import { ReactComponent as CoffeeIcon } from "../../assets/icons/coffee.svg";
-import { ReactComponent as CoffeePotIcon } from "../../assets/icons/coffee-pot.svg";
 
 const TYPES_DEFAULT_DESCRIPTION_DICT = {
   p: "Pomodoro",
@@ -17,10 +14,10 @@ const TYPES_DEFAULT_DESCRIPTION_DICT = {
 //   sb: styles.shortBreak,
 //   lb: styles.longBreak,
 // };
-const TYPES_ICONS_DICT = {
-  p: <TomatoIcon className={styles.inlineIcon} title="Pomodoro" />,
-  sb: <CoffeeIcon className={styles.inlineIcon} title="Short Break" />,
-  lb: <CoffeePotIcon className={styles.inlineIcon} title="Long Break" />,
+const TYPES_EMOJIS_DICT = {
+  p: "🍅",
+  sb: "☕",
+  lb: "🍺",
 };
 
 // Custom hook
@@ -62,13 +59,13 @@ function EntryModal(props) {
           Type:
           <select value={type} {...type}>
             <option value="p">
-              {TYPES_ICONS_DICT["p"]} {TYPES_DEFAULT_DESCRIPTION_DICT["p"]}
+              {TYPES_EMOJIS_DICT["p"]} {TYPES_DEFAULT_DESCRIPTION_DICT["p"]}
             </option>
             <option value="sb">
-              {TYPES_ICONS_DICT["sb"]} {TYPES_DEFAULT_DESCRIPTION_DICT["sb"]}
+              {TYPES_EMOJIS_DICT["sb"]} {TYPES_DEFAULT_DESCRIPTION_DICT["sb"]}
             </option>
             <option value="lb">
-              {TYPES_ICONS_DICT["lb"]} {TYPES_DEFAULT_DESCRIPTION_DICT["lb"]}
+              {TYPES_EMOJIS_DICT["lb"]} {TYPES_DEFAULT_DESCRIPTION_DICT["lb"]}
             </option>
           </select>
         </label>

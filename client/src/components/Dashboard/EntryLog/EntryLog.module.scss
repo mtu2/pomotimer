@@ -37,17 +37,15 @@
   justify-content: space-between;
 
   height: 28px;
-  padding: 4px 8px;
+  padding: 2px 8px;
   margin: 3px 0px;
 
   font-size: 16px;
   border-radius: 8px;
   border: 1px solid rgba(25, 4, 69, 0);
 
-  .description {
-    .inlineIcon {
-      margin-right: 12px;
-    }
+  p {
+    line-height: 24px;
   }
   .duration {
     font-weight: 700;
@@ -107,15 +105,11 @@
   }
 }
 .pomodoro {
-  background: rgba(247, 112, 86, 0.15);
+  background: rgba(249, 98, 98, 0.2);
 }
 .shortBreak {
-  background: #e8f1f3;
+  background: rgba(91, 184, 165, 0.2);
 }
 .longBreak {
-  background: #eceefa;
-}
-.inlineIcon {
-  width: 16px;
-  height: 16px;
+  background: rgba(34, 153, 212, 0.2);
 }

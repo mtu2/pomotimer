@@ -16,6 +16,13 @@
     font-weight: 600;
     font-size: 18px;
     color: rgba(0, 0, 0, 0.8);
+    margin-left: 10px;
+
+    .logo {
+      width: 24px;
+      height: 24px;
+      vertical-align: bottom;
+    }
   }
   ul li {
     display: inline-block;

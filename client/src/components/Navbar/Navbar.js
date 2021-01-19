@@ -3,6 +3,7 @@ import styles from "./Navbar.module.scss";
 
 import { useModalContext } from "../../context/ModalContext/ModalContext";
 import { useAuthContext } from "../../context/AuthContext/AuthContext";
+import { ReactComponent as Logo } from "../../assets/icons/timer.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Navbar() {
@@ -11,7 +12,9 @@ function Navbar() {
 
   return (
     <nav className={styles.nav}>
-      <h1>🌞 mtu-pomodoro</h1>
+      <h1>
+        <Logo className={styles.logo} /> mtu-pomodoro
+      </h1>
       <ul>
         <li>
           <FontAwesomeIcon

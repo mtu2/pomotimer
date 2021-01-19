@@ -4,10 +4,6 @@ import styles from "./Timer.module.scss";
 import { useEntryContext } from "../../../context/EntryContext/EntryContext";
 import { formatSecToMinSec } from "../../../utils/times";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ReactComponent as TomatoIcon } from "../../../assets/icons/tomato.svg";
-import { ReactComponent as CoffeeIcon } from "../../../assets/icons/coffee.svg";
-import { ReactComponent as CoffeePotIcon } from "../../../assets/icons/coffee-pot.svg";
-
 import StartTimerAudio from "../../../assets/sounds/start-timer.mp3";
 import EndTimerAudio from "../../../assets/sounds/end-timer.mp3";
 // BUG FIX: Bintang's answer https://stackoverflow.com/questions/39807957/countdown-timer-delays-when-tab-is-inactive
@@ -21,11 +17,6 @@ const TYPES_STYLES_DICT = {
   p: styles.pomodoro,
   sb: styles.shortBreak,
   lb: styles.longBreak,
-};
-const TYPES_BG_COLOR_DICT = {
-  p: "#faf4f3",
-  sb: "#f3f9fa",
-  lb: "#F4F3FA",
 };
 const FULL_DASH_ARRAY = 283;
 
@@ -75,9 +66,6 @@ function Timer() {
   function handleTypeChange(newType) {
     // Change type of timer if not counting
     if (type === newType || counting) return;
-
-    // Change bg color - seems a bit hackish
-    document.body.style.background = TYPES_BG_COLOR_DICT[newType];
 
     setType(newType);
     setCountdown(TYPES_DURATION_DICT[newType]);
@@ -142,8 +130,7 @@ function Timer() {
             styles.pomodoroButton
           }`}
         >
-          <TomatoIcon className={styles.icon} />
-          <p>{formatSecToMinSec(TYPES_DURATION_DICT["p"] / 1000)}</p>
+          <p>🍅 {formatSecToMinSec(TYPES_DURATION_DICT["p"] / 1000)}</p>
         </button>
         <button
           onClick={() => handleTypeChange("sb")}
@@ -152,8 +139,7 @@ function Timer() {
             styles.shortBreakButton
           }`}
         >
-          <CoffeeIcon className={styles.icon} />
-          <p>{formatSecToMinSec(TYPES_DURATION_DICT["sb"] / 1000)}</p>
+          <p>☕ {formatSecToMinSec(TYPES_DURATION_DICT["sb"] / 1000)}</p>
         </button>
         <button
           onClick={() => handleTypeChange("lb")}
@@ -162,8 +148,7 @@ function Timer() {
             styles.longBreakButton
           }`}
         >
-          <CoffeePotIcon className={styles.icon} />
-          <p>{formatSecToMinSec(TYPES_DURATION_DICT["lb"] / 1000)}</p>
+          <p>🍺 {formatSecToMinSec(TYPES_DURATION_DICT["lb"] / 1000)}</p>
         </button>
       </div>
 
@@ -172,7 +157,6 @@ function Timer() {
         <h2>{formatSecToMinSec(Math.floor(countdown / 1000))}</h2>
         <p>/ {formatSecToMinSec(TYPES_DURATION_DICT[type] / 1000)}</p>
         <div className={`${styles.innerCircle} ${TYPES_STYLES_DICT[type]}`} />
-        <div className={styles.middleCircle} />
         <div className={`${styles.outerCircle} ${TYPES_STYLES_DICT[type]}`}>
           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <g>
