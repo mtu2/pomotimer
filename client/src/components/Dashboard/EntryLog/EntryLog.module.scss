@@ -178,6 +178,14 @@
   }
 }
 
+// Desktop/laptop height breakpoint
+@media screen and (min-width: 1024px) and (min-height: 860px) {
+  // 814px = default height of app
+  .entryLog {
+    height: calc(564px + 5vh); // height of timer
+  }
+}
+
 // Larger desktop breakpoint - start time shown in log
 @media screen and (min-width: 1200px) {
   .entryRow {

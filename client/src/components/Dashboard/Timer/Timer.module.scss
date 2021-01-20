@@ -229,3 +229,21 @@
     }
   }
 }
+
+// Desktop/laptop height breakpoint
+@media screen and (min-height: 860px) and (min-width: 1024px) {
+  // 814px = default height of app
+  .timerContainer {
+    width: calc(340px + 5vh);
+    height: calc(340px + 5vh);
+
+    .innerCircle {
+      width: calc(300px + 5vh);
+      height: calc(300px + 5vh);
+    }
+    .outerCircle {
+      width: calc(340px + 5vh);
+      height: calc(340px + 5vh);
+    }
+  }
+}
