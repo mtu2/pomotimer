@@ -1,0 +1,29 @@
+.footer {
+  display: flex;
+  align-items: flex-end;
+
+  padding: 16px 24px 24px 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0px 16px;
+  color: rgba(0, 0, 0, 0.75);
+
+  p {
+    vertical-align: bottom;
+    font-size: 12px;
+    margin-right: 48px;
+
+    a {
+      color: #f96262;
+      text-decoration: none; /* no underline */
+    }
+    .icon {
+      height: 14px;
+      width: 14px;
+      margin: 0px 3px;
+      color: rgba(0, 0, 0, 0.65);
+      :hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

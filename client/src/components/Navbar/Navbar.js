@@ -18,6 +18,13 @@ function Navbar() {
       <ul>
         <li>
           <FontAwesomeIcon
+            icon={["fas", "info-circle"]}
+            className={styles.icon}
+            onClick={() => showModal("INFO")}
+          />
+        </li>
+        <li>
+          <FontAwesomeIcon
             icon={["fas", "cog"]}
             className={styles.icon}
             onClick={() => showModal("SETTINGS")}

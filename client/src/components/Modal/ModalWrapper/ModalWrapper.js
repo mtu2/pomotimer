@@ -48,4 +48,8 @@ function ModalWrapper({ children, onClose }) {
   );
 }
 
+ModalWrapper.defaultProps = {
+  onClose: () => undefined, //empty function
+};
+
 export default ModalWrapper;
