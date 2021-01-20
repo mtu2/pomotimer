@@ -1,6 +1,7 @@
 .footer {
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+  justify-content: flex-end;
 
   padding: 16px 24px 24px 24px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -10,7 +11,7 @@
   p {
     vertical-align: bottom;
     font-size: 12px;
-    margin-right: 48px;
+    margin-bottom: 4px;
 
     a {
       color: #f96262;
@@ -24,6 +25,20 @@
       :hover {
         cursor: pointer;
       }
+    }
+  }
+}
+
+// Desktop breakpoint
+@media screen and (min-width: 1024px) {
+  .footer {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-end;
+    justify-content: flex-start;
+    p {
+      margin-right: 48px;
+      margin-bottom: 0px;
     }
   }
 }
