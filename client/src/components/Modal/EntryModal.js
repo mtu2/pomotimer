@@ -3,17 +3,19 @@ import styles from "./EntryModal.module.scss";
 
 import ModalWrapper from "./ModalWrapper/ModalWrapper";
 import { useEntryContext } from "../../context/EntryContext/EntryContext";
+import {
+  getMinutesFromSeconds,
+  getSecondsMinusMinutes,
+  formatDateToDayMonthYear,
+  formatDateToHourMinSec,
+  calcDate,
+} from "../../utils/times";
 
 const TYPES_DEFAULT_DESCRIPTION_DICT = {
   p: "Pomodoro",
   sb: "Short Break",
   lb: "Long Break",
 };
-// const TYPES_STYLES_DICT = {
-//   p: styles.pomodoro,
-//   sb: styles.shortBreak,
-//   lb: styles.longBreak,
-// };
 const TYPES_EMOJIS_DICT = {
   p: "🍅",
   sb: "☕",
@@ -37,8 +39,13 @@ function EntryModal(props) {
   const { updateEntry } = useEntryContext();
   const description = useFormInput(props.description || "");
   const type = useFormInput(props.type);
-  const duration = useFormInput(props.duration);
-  const startTime = useFormInput(new Date(props.startTime));
+
+  const durationMin = useFormInput(getMinutesFromSeconds(props.duration));
+  const durationSec = useFormInput(getSecondsMinusMinutes(props.duration));
+
+  const initStartTime = new Date(props.startTime);
+  const startTimeHMS = useFormInput(formatDateToHourMinSec(props.startTime));
+  const startTimeDMY = useFormInput(formatDateToDayMonthYear(props.startTime));
 
   function handleOnClose() {
     console.log("ENTRY MODAL CLOSED");
@@ -46,8 +53,8 @@ function EntryModal(props) {
       props._id,
       description.value,
       type.value,
-      duration.value,
-      new Date(startTime.value)
+      durationMin.value * 60 + durationSec.value,
+      calcDate(startTimeHMS.value, startTimeDMY.value, initStartTime)
     );
   }
 
@@ -78,12 +85,22 @@ function EntryModal(props) {
           ></input>
         </label>
         <label className={styles.duration}>
-          Duration:
-          <input type="number" {...duration}></input>
+          <p>Duration:</p>
+          <div className={styles.durationInputContainer}>
+            <div className={styles.durationInput}>
+              <input type="text" {...durationMin}></input>m
+            </div>
+            <div className={styles.durationInput}>
+              <input type="text" {...durationSec}></input>s
+            </div>
+          </div>
         </label>
         <label className={styles.startTime}>
           Start Time:
-          <input type="text" {...startTime}></input>
+          <div className={styles.startTimeInputContainer}>
+            <input type="text" {...startTimeHMS}></input>
+            <input type="text" {...startTimeDMY}></input>
+          </div>
         </label>
       </form>
     </ModalWrapper>

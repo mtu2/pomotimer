@@ -24,7 +24,7 @@ module.exports = {
     const description = req.body.description;
     const type = req.body.type;
     const duration = Number(req.body.duration);
-    const startTime = Date(req.body.startTime);
+    const startTime = new Date(req.body.startTime);
 
     const newEntry = {
       description,
@@ -59,7 +59,7 @@ module.exports = {
         description: req.body.description,
         type: req.body.type,
         duration: Number(req.body.duration),
-        startTime: Date(req.body.startTime),
+        startTime: new Date(req.body.startTime),
       });
       await user.save();
       res.json(user.entries.id(req.params.entryId)); // send updated entry

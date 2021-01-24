@@ -85,16 +85,84 @@ export function formatDateToDayMonth(date) {
     MONTHS_SHORT[dateObj.getMonth()]
   }`;
 }
-
 export function formatDateToHourMin(date) {
   // e.g. Date object --> 1:54pm
   // e.g. Date object --> 10:30am
   const dateObj = new Date(date);
   const hours = dateObj.getHours();
   const minutes = dateObj.getMinutes();
-  const minutesAdj = minutes < 10 ? "0" + minutes : minutes.toString();
+  const minutesString = minutes < 10 ? "0" + minutes : minutes;
 
   return hours > 12
-    ? `${hours - 12}:${minutesAdj}pm`
-    : `${hours}:${minutesAdj}am`;
+    ? `${hours - 12}:${minutesString}pm`
+    : `${hours}:${minutesString}am`;
+}
+
+// Enty Modal Functions
+export function getMinutesFromSeconds(seconds) {
+  // e.g. 130 -> 2
+  return Math.floor(seconds / 60);
+}
+export function getSecondsMinusMinutes(seconds) {
+  // e.g. 130 -> 10
+  return seconds - getMinutesFromSeconds(seconds) * 60;
+}
+export function formatDateToDayMonthYear(date) {
+  // e.g. Date object --> 01/10/2021
+  const dateObj = new Date(date);
+  const months = dateObj.getMonth() + 1;
+  const monthsString = months < 10 ? "0" + months : months;
+
+  return `${dateObj.getDate()}/${monthsString}/${dateObj.getFullYear()}`;
+}
+export function formatDateToHourMinSec(date) {
+  // e.g. Date object --> 13:54:23
+  // e.g. Date object --> 02:03:30
+  const dateObj = new Date(date);
+  const hours = dateObj.getHours();
+  const minutes = dateObj.getMinutes();
+  const seconds = dateObj.getSeconds();
+
+  const hoursString = hours < 10 ? "0" + hours : hours;
+  const minutesString = minutes < 10 ? "0" + minutes : minutes;
+  const secondsString = seconds < 10 ? "0" + seconds : seconds.toString();
+
+  return `${hoursString}:${minutesString}:${secondsString}`;
+}
+export function calcDate(hms, date, errorDate = new Date()) {
+  // e.g. "01:20:30", "20/1/2021"
+  try {
+    const dateObj = new Date();
+    const hmsArr = hms.split(":");
+    const dateArr = date.split("/");
+
+    if (
+      hmsArr[0] < 0 ||
+      23 < hmsArr[0] ||
+      hmsArr[1] < 0 ||
+      59 < hmsArr[1] ||
+      hmsArr[2] < 0 ||
+      59 < hmsArr[2] ||
+      dateArr[0] < 1 ||
+      31 < dateArr[0] ||
+      dateArr[1] < 1 ||
+      12 < dateArr[1] ||
+      dateArr[2] < 2010 ||
+      2030 < dateArr[2]
+    ) {
+      throw new Error("Input not valid");
+    }
+
+    dateObj.setFullYear(dateArr[2]);
+    dateObj.setMonth(dateArr[1] - 1);
+    dateObj.setDate(dateArr[0]);
+
+    dateObj.setSeconds(hmsArr[2]);
+    dateObj.setMinutes(hmsArr[1]);
+    dateObj.setHours(hmsArr[0]);
+
+    return dateObj;
+  } catch (err) {
+    return errorDate;
+  }
 }
