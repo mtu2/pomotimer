@@ -47,6 +47,8 @@
   border-radius: 8px;
   border: 1px solid rgba(25, 4, 69, 0);
 
+  overflow: hidden; // hide buttons
+
   p {
     line-height: 24px;
   }
@@ -89,9 +91,12 @@
   }
 
   .buttonContainer {
+    display: flex;
     position: absolute;
-    display: none;
     right: 0px;
+
+    transition: transform 0.2s;
+    transform: translateX(106px);
 
     button {
       display: flex;
@@ -128,7 +133,7 @@
   }
   &:hover .buttonContainer,
   &:active .buttonContainer {
-    display: flex;
+    transform: translateX(0px);
   }
 }
 
@@ -172,6 +177,7 @@
 
   .entryRow {
     .buttonContainer {
+      display: none;
       right: 4px;
 
       // Vertically center in entryrow
@@ -208,6 +214,10 @@
           }
         }
       }
+    }
+    &:hover .buttonContainer {
+      display: flex;
+      transform: translateY(-50%); // override transitions for mobile
     }
   }
 }

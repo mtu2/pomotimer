@@ -4,8 +4,8 @@ import styles from "./Timer.module.scss";
 import { useEntryContext } from "../../../context/EntryContext/EntryContext";
 import { formatSecToMinSec } from "../../../utils/times";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import StartTimerAudio from "../../../assets/sounds/start-timer.mp3";
-import EndTimerAudio from "../../../assets/sounds/end-timer.mp3";
+import StartTimerAudio from "../../../assets/sounds/notification.mp3";
+import EndTimerAudio from "../../../assets/sounds/notification_down.mp3";
 // BUG FIX: Bintang's answer https://stackoverflow.com/questions/39807957/countdown-timer-delays-when-tab-is-inactive
 
 const TYPES_DURATION_DICT = {
