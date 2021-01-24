@@ -63,6 +63,16 @@ function Timer() {
     }
   }, [countdown, counting, description, type, startTime, addEntry]);
 
+  useEffect(() => {
+    if (counting) {
+      document.title = `[${formatSecToMinSec(
+        Math.floor(countdown / 1000)
+      )}] mtu-pomodoro`;
+    } else {
+      document.title = "mtu-pomodoro";
+    }
+  }, [counting, countdown]);
+
   function handleTypeChange(newType) {
     // Change type of timer if not counting
     if (type === newType || counting) return;
