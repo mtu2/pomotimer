@@ -9,22 +9,16 @@ import {
   formatDateToDayMonth,
   formatDateToHourMin,
 } from "../../../utils/times";
+import {
+  TYPES_DEFAULT_DESCRIPTION_DICT,
+  TYPES_EMOJIS_DICT,
+} from "../../../utils/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const TYPES_DEFAULT_DESCRIPTION_DICT = {
-  p: "Pomodoro",
-  sb: "Short Break",
-  lb: "Long Break",
-};
 const TYPES_STYLES_DICT = {
   p: styles.pomodoro,
   sb: styles.shortBreak,
   lb: styles.longBreak,
-};
-const TYPES_EMOJIS_DICT = {
-  p: "🍅",
-  sb: "☕",
-  lb: "🍺",
 };
 
 const EntryRow = (props) => {

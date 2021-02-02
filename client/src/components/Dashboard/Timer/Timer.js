@@ -4,15 +4,11 @@ import styles from "./Timer.module.scss";
 import { useEntryContext } from "../../../context/EntryContext/EntryContext";
 import { formatSecToMinSec } from "../../../utils/times";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { TYPES_DURATION_DICT, TYPES_EMOJIS_DICT } from "../../../utils/types";
 import StartTimerAudio from "../../../assets/sounds/notification.mp3";
 import EndTimerAudio from "../../../assets/sounds/notification_down.mp3";
 // BUG FIX: Bintang's answer https://stackoverflow.com/questions/39807957/countdown-timer-delays-when-tab-is-inactive
 
-const TYPES_DURATION_DICT = {
-  p: 1500000,
-  sb: 300000,
-  lb: 900000,
-};
 const TYPES_STYLES_DICT = {
   p: styles.pomodoro,
   sb: styles.shortBreak,
@@ -140,7 +136,10 @@ function Timer() {
             styles.pomodoroButton
           }`}
         >
-          <p>🍅 {formatSecToMinSec(TYPES_DURATION_DICT["p"] / 1000)}</p>
+          <p>
+            {TYPES_EMOJIS_DICT["p"]}{" "}
+            {formatSecToMinSec(TYPES_DURATION_DICT["p"] / 1000)}
+          </p>
         </button>
         <button
           onClick={() => handleTypeChange("sb")}
@@ -149,7 +148,10 @@ function Timer() {
             styles.shortBreakButton
           }`}
         >
-          <p>☕ {formatSecToMinSec(TYPES_DURATION_DICT["sb"] / 1000)}</p>
+          <p>
+            {TYPES_EMOJIS_DICT["sb"]}{" "}
+            {formatSecToMinSec(TYPES_DURATION_DICT["sb"] / 1000)}
+          </p>
         </button>
         <button
           onClick={() => handleTypeChange("lb")}
@@ -158,7 +160,10 @@ function Timer() {
             styles.longBreakButton
           }`}
         >
-          <p>🍺 {formatSecToMinSec(TYPES_DURATION_DICT["lb"] / 1000)}</p>
+          <p>
+            {TYPES_EMOJIS_DICT["lb"]}{" "}
+            {formatSecToMinSec(TYPES_DURATION_DICT["lb"] / 1000)}
+          </p>
         </button>
       </div>
 

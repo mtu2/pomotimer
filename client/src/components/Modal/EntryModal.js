@@ -10,17 +10,10 @@ import {
   formatDateToHourMinSec,
   calcDate,
 } from "../../utils/times";
-
-const TYPES_DEFAULT_DESCRIPTION_DICT = {
-  p: "Pomodoro",
-  sb: "Short Break",
-  lb: "Long Break",
-};
-const TYPES_EMOJIS_DICT = {
-  p: "🍅",
-  sb: "☕",
-  lb: "🍺",
-};
+import {
+  TYPES_DEFAULT_DESCRIPTION_DICT,
+  TYPES_EMOJIS_DICT,
+} from "../../utils/types";
 
 // Custom hook
 function useFormInput(initialValue) {
@@ -48,7 +41,6 @@ function EntryModal(props) {
   const startTimeDMY = useFormInput(formatDateToDayMonthYear(props.startTime));
 
   function handleOnClose() {
-    console.log("ENTRY MODAL CLOSED");
     updateEntry(
       props._id,
       description.value,

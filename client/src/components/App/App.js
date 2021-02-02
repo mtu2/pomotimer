@@ -1,5 +1,3 @@
-import styles from "./App.module.scss";
-
 import { Toaster } from "react-hot-toast";
 import { ModalContextProvider } from "../../context/ModalContext/ModalContext";
 import { EntryContextProvider } from "../../context/EntryContext/EntryContext";
@@ -22,7 +20,7 @@ function App() {
     <ModalContextProvider>
       <AuthContextProvider>
         <EntryContextProvider>
-          <div className={styles.app}>
+          <div>
             <Toaster />
             <Modal />
             <Navbar />
