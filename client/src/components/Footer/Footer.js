@@ -12,10 +12,10 @@ function Footer() {
           Michael
         </a>{" "}
         &nbsp; |{" "}
-        <a href="www.linkedin.com/in/tu-michael" title="LinkedIn">
+        <a href="https://github.com/mtu2" title="LinkedIn">
           <FontAwesomeIcon icon={["fab", "github"]} className={styles.icon} />
         </a>{" "}
-        <a href="https://github.com/mtu2" title="Github">
+        <a href="www.linkedin.com/in/tu-michael" title="Github">
           <FontAwesomeIcon icon={["fab", "linkedin"]} className={styles.icon} />
         </a>
       </p>
@@ -27,14 +27,6 @@ function Footer() {
         >
           Kiranshastry
         </a>
-        . Timer sounds made by{" "}
-        <a
-          href="https://freesound.org/people/FoolBoyMedia/"
-          title="FoolBoyMedia"
-        >
-          FoolBoyMedia
-        </a>
-        .
       </p>
     </div>
   );
