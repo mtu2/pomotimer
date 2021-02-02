@@ -242,8 +242,8 @@ $outer-circle-width: 340px;
     height: calc(#{$outer-circle-width} + 5vh);
 
     .innerCircle {
-      width: calc($inner-circle-width + 5vh);
-      height: calc($inner-circle-width + 5vh);
+      width: calc(#{$inner-circle-width} + 5vh);
+      height: calc(#{$inner-circle-width} + 5vh);
     }
     .outerCircle {
       width: calc(#{$outer-circle-width} + 5vh);
