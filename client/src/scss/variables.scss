@@ -1,0 +1,29 @@
+$color-green: #d2f07b;
+$color-border: #190445;
+$color-button-icon: #000000;
+
+$color-pomodoro: #f96262;
+$color-shortbreak: #5bb8a5;
+$color-longbreak: #2299d4;
+
+$color-pomodoro-10: rgba($color-pomodoro, 0.1);
+$color-pomodoro-20: rgba($color-pomodoro, 0.2);
+$color-pomodoro-50: rgba($color-pomodoro, 0.5);
+$color-pomodoro-70: rgba($color-pomodoro, 0.7);
+
+$color-shortbreak-10: rgba($color-shortbreak, 0.1);
+$color-shortbreak-20: rgba($color-shortbreak, 0.2);
+$color-shortbreak-50: rgba($color-shortbreak, 0.5);
+$color-shortbreak-70: rgba($color-shortbreak, 0.7);
+
+$color-longbreak-10: rgba($color-longbreak, 0.1);
+$color-longbreak-20: rgba($color-longbreak, 0.2);
+$color-longbreak-50: rgba($color-longbreak, 0.5);
+$color-longbreak-70: rgba($color-longbreak, 0.7);
+
+$border-0: 1px solid rgba($color-border, 0);
+$border-10: 1px solid rgba($color-border, 0.1);
+$border-30: 1px solid rgba($color-border, 0.3);
+
+$color-button-icon-unhovered: rgba($color-button-icon, 0.54);
+$color-button-icon-hovered: rgba($color-button-icon, 0.65);

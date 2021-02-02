@@ -1,0 +1,15 @@
+@mixin desktop-width {
+  @media screen and (min-width: 1024px) {
+    @content;
+  }
+}
+@mixin desktop-width-height {
+  @media screen and (min-width: 1024px) and (min-height: 860px) {
+    @content;
+  }
+}
+@mixin large-desktop-width {
+  @media screen and (min-width: 1200px) {
+    @content;
+  }
+}

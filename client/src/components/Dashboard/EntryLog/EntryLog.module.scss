@@ -1,3 +1,6 @@
+@import "../../../scss/variables.scss";
+@import "../../../scss/mixins.scss";
+
 // Entry Logs
 .entryLog {
   display: flex;
@@ -28,7 +31,7 @@
   margin-bottom: 20px;
   padding: 8px 12px;
 
-  border: 1px solid rgba(25, 4, 69, 0.1);
+  border: $border-10;
   border-radius: 16px;
   background: white;
 }
@@ -45,7 +48,7 @@
 
   font-size: 16px;
   border-radius: 8px;
-  border: 1px solid rgba(25, 4, 69, 0);
+  border: $border-0;
 
   overflow: hidden; // hide buttons
 
@@ -69,25 +72,25 @@
     color: rgba(0, 0, 0, 0.3);
   }
   &.pomodoro {
-    background: rgba(249, 98, 98, 0.2);
+    background: $color-pomodoro-20;
     &.optimistic {
-      background: rgba(249, 98, 98, 0.1);
+      background: $color-pomodoro-10;
     }
   }
   &.shortBreak {
-    background: rgba(91, 184, 165, 0.2);
+    background: $color-shortbreak-20;
     &.optimistic {
-      background: rgba(91, 184, 165, 0.1);
+      background: $color-shortbreak-10;
     }
   }
   &.longBreak {
-    background: rgba(34, 153, 212, 0.2);
+    background: $color-longbreak-20;
     &.optimistic {
-      background: rgba(34, 153, 212, 0.1);
+      background: $color-longbreak-10;
     }
   }
   &:hover {
-    border: 1px solid rgba(25, 4, 69, 0.3);
+    border: $border-30;
   }
 
   .buttonContainer {
@@ -118,10 +121,10 @@
       }
     }
     .editButton {
-      border-right: 1px solid rgba(25, 4, 69, 0.3);
-      border-left: 1px solid rgba(25, 4, 69, 0.3);
+      border-right: $border-30;
+      border-left: $border-30;
       .icon {
-        color: rgba(0, 0, 0, 0.65);
+        color: $color-button-icon-hovered;
       }
     }
     .deleteButton {
@@ -138,7 +141,7 @@
 }
 
 // Desktop breakpoint - side-by-side timer and log
-@media screen and (min-width: 1024px) {
+@include desktop-width {
   .entryLog {
     width: 40%;
     max-width: 600px;
@@ -148,7 +151,7 @@
     margin-top: 0px;
     padding: 12px 24px;
 
-    border: 1px solid rgba(25, 4, 69, 0.1);
+    border: $border-10;
     border-radius: 16px;
 
     overflow-y: auto; /* add vertical scrollbar */
@@ -194,11 +197,11 @@
         border-radius: 4px;
         border: none;
         .icon {
-          color: rgba(0, 0, 0, 0.54);
+          color: $color-button-icon-unhovered;
         }
         &:hover {
           .icon {
-            color: rgba(0, 0, 0, 0.65);
+            color: $color-button-icon-hovered;
           }
         }
       }
@@ -223,7 +226,7 @@
 }
 
 // Desktop/laptop height breakpoint
-@media screen and (min-width: 1024px) and (min-height: 860px) {
+@include desktop-width-height {
   // 814px = default height of app
   .entryLog {
     height: calc(564px + 5vh); // height of timer
@@ -231,7 +234,7 @@
 }
 
 // Larger desktop breakpoint - start time shown in log
-@media screen and (min-width: 1200px) {
+@include large-desktop-width {
   .entryRow {
     position: relative;
     display: grid;

@@ -1,3 +1,9 @@
+@import "../../../scss/variables.scss";
+@import "../../../scss/mixins.scss";
+
+$inner-circle-width: 300px;
+$outer-circle-width: 340px;
+
 .timer {
   // For all buttons in timer
   button {
@@ -39,33 +45,33 @@
     }
   }
   .pomodoroButton {
-    background-color: rgba(249, 98, 98, 0.5);
+    background-color: $color-pomodoro-50;
     &:hover {
-      background-color: rgba(249, 98, 98, 0.7);
+      background-color: $color-pomodoro-70;
     }
     &.active {
       color: rgba(0, 0, 0, 0.9);
-      background-color: rgba(249, 98, 98, 0.7);
+      background-color: $color-pomodoro-70;
     }
   }
   .shortBreakButton {
-    background-color: rgba(91, 184, 165, 0.5);
+    background-color: $color-shortbreak-50;
     &:hover {
-      background-color: rgba(91, 184, 165, 0.7);
+      background-color: $color-shortbreak-70;
     }
     &.active {
       color: rgba(0, 0, 0, 0.9);
-      background-color: rgba(91, 184, 165, 0.7);
+      background-color: $color-shortbreak-70;
     }
   }
   .longBreakButton {
-    background-color: rgba(34, 153, 212, 0.5);
+    background-color: $color-longbreak-50;
     &:hover {
-      background-color: rgba(34, 153, 212, 0.7);
+      background-color: $color-longbreak-70;
     }
     &.active {
       color: rgba(0, 0, 0, 0.9);
-      background-color: rgba(34, 153, 212, 0.7);
+      background-color: $color-longbreak-70;
     }
   }
 }
@@ -88,17 +94,17 @@
     .icon {
       width: 24px;
       height: 24px;
-      color: rgba(0, 0, 0, 0.54);
+      color: $color-button-icon-unhovered;
     }
     &:hover {
       .icon {
-        color: rgba(0, 0, 0, 0.65);
+        color: $color-button-icon-hovered;
       }
     }
   }
   .startStopButton {
     width: 176px;
-    background-color: #d2f07b;
+    background-color: $color-green;
   }
 }
 
@@ -112,8 +118,8 @@
 
   margin-top: 32px;
   margin-bottom: 32px;
-  width: 340px;
-  height: 340px;
+  width: $outer-circle-width;
+  height: $outer-circle-width;
 
   h2 {
     z-index: 300;
@@ -131,8 +137,8 @@
     position: absolute;
     z-index: 200;
 
-    width: 300px;
-    height: 300px;
+    width: $inner-circle-width;
+    height: $inner-circle-width;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -143,21 +149,21 @@
     transition: background-color 0.5s ease-in-out;
 
     &.pomodoro {
-      background-color: #f96262;
+      background-color: $color-pomodoro;
     }
     &.shortBreak {
-      background-color: #5bb8a5;
+      background-color: $color-shortbreak;
     }
     &.longBreak {
-      background-color: #2299d4;
+      background-color: $color-longbreak;
     }
   }
   .outerCircle {
     position: absolute;
     z-index: 0;
 
-    width: 340px;
-    height: 340px;
+    width: $outer-circle-width;
+    height: $outer-circle-width;
 
     svg {
       transform: scaleX(-1);
@@ -185,26 +191,26 @@
     }
     &.pomodoro {
       circle {
-        stroke: rgba(249, 98, 98, 0.2);
+        stroke: $color-pomodoro-20;
       }
       path {
-        stroke: rgba(249, 98, 98, 0.5);
+        stroke: $color-pomodoro-50;
       }
     }
     &.shortBreak {
       circle {
-        stroke: rgba(91, 184, 165, 0.2);
+        stroke: $color-shortbreak-20;
       }
       path {
-        stroke: rgba(91, 184, 165, 0.5);
+        stroke: $color-shortbreak-50;
       }
     }
     &.longBreak {
       circle {
-        stroke: rgba(34, 153, 212, 0.2);
+        stroke: $color-longbreak-20;
       }
       path {
-        stroke: rgba(34, 153, 212, 0.5);
+        stroke: $color-longbreak-50;
       }
     }
   }
@@ -220,30 +226,28 @@
     height: 32px;
     border: none;
     outline: none;
-    border: 1px solid rgba(25, 4, 69, 0.1);
+    border: $border-10;
     border-radius: 16px;
     font-size: 18px;
 
     &:hover {
-      border: 1px solid rgba(25, 4, 69, 0.3);
+      border: $border-30;
     }
   }
 }
 
-// Desktop/laptop height breakpoint
-@media screen and (min-height: 860px) and (min-width: 1024px) {
-  // 814px = default height of app
+@include desktop-width-height {
   .timerContainer {
-    width: calc(340px + 5vh);
-    height: calc(340px + 5vh);
+    width: calc($outer-circle-width + 5vh);
+    height: calc($outer-circle-width + 5vh);
 
     .innerCircle {
-      width: calc(300px + 5vh);
-      height: calc(300px + 5vh);
+      width: calc($inner-circle-width + 5vh);
+      height: calc($inner-circle-width + 5vh);
     }
     .outerCircle {
-      width: calc(340px + 5vh);
-      height: calc(340px + 5vh);
+      width: calc($outer-circle-width + 5vh);
+      height: calc($outer-circle-width + 5vh);
     }
   }
 }
