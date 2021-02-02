@@ -238,16 +238,16 @@ $outer-circle-width: 340px;
 
 @include desktop-width-height {
   .timerContainer {
-    width: calc($outer-circle-width + 5vh);
-    height: calc($outer-circle-width + 5vh);
+    width: calc(#{$outer-circle-width} + 5vh);
+    height: calc(#{$outer-circle-width} + 5vh);
 
     .innerCircle {
       width: calc($inner-circle-width + 5vh);
       height: calc($inner-circle-width + 5vh);
     }
     .outerCircle {
-      width: calc($outer-circle-width + 5vh);
-      height: calc($outer-circle-width + 5vh);
+      width: calc(#{$outer-circle-width} + 5vh);
+      height: calc(#{$outer-circle-width} + 5vh);
     }
   }
 }
