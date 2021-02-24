@@ -15,7 +15,7 @@ function Footer() {
         <a href="https://github.com/mtu2/pomotimer" title="GitHub">
           <FontAwesomeIcon icon={["fab", "github"]} className={styles.icon} />
         </a>{" "}
-        <a href="www.linkedin.com/in/tu-michael" title="Linkedin">
+        <a href="https://www.linkedin.com/in/tu-michael" title="Linkedin">
           <FontAwesomeIcon icon={["fab", "linkedin"]} className={styles.icon} />
         </a>
       </p>
