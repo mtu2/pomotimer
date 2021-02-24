@@ -63,9 +63,9 @@ function Timer() {
     if (counting) {
       document.title = `[${formatSecToMinSec(
         Math.floor(countdown / 1000)
-      )}] mtu-pomodoro`;
+      )}] Pomotimer`;
     } else {
-      document.title = "mtu-pomodoro";
+      document.title = "Pomotimer";
     }
   }, [counting, countdown]);
 

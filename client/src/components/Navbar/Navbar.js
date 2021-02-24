@@ -13,7 +13,7 @@ function Navbar() {
   return (
     <nav className={styles.nav}>
       <h1>
-        <Logo className={styles.logo} /> mtu-pomodoro
+        <Logo className={styles.logo} /> Pomotimer
       </h1>
       <ul>
         <li>
