@@ -12,7 +12,7 @@ function Footer() {
           Michael
         </a>{" "}
         &nbsp; |{" "}
-        <a href="https://github.com/mtu2" title="GitHub">
+        <a href="https://github.com/mtu2/pomotimer" title="GitHub">
           <FontAwesomeIcon icon={["fab", "github"]} className={styles.icon} />
         </a>{" "}
         <a href="www.linkedin.com/in/tu-michael" title="Linkedin">
