@@ -8,14 +8,14 @@ function Footer() {
     <div className={styles.footer}>
       <p>
         Made with 💝 by{" "}
-        <a href="https://github.com/mtu2" title="Michael">
+        <a href="https://mttu.dev" title="https://mttu.dev">
           Michael
         </a>{" "}
         &nbsp; |{" "}
-        <a href="https://github.com/mtu2" title="LinkedIn">
+        <a href="https://github.com/mtu2" title="GitHub">
           <FontAwesomeIcon icon={["fab", "github"]} className={styles.icon} />
         </a>{" "}
-        <a href="www.linkedin.com/in/tu-michael" title="Github">
+        <a href="www.linkedin.com/in/tu-michael" title="Linkedin">
           <FontAwesomeIcon icon={["fab", "linkedin"]} className={styles.icon} />
         </a>
       </p>
