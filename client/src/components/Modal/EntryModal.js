@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./EntryModal.module.scss";
 
 import ModalWrapper from "./ModalWrapper/ModalWrapper";
 import { useEntryContext } from "../../context/EntryContext/EntryContext";
+import { useFormInput } from "../../hooks/useFormInput";
+import { useTypesEmoji } from "../../hooks/useTypesEmoji";
 import {
   getMinutesFromSeconds,
   getSecondsMinusMinutes,
@@ -10,26 +12,12 @@ import {
   formatDateToHourMinSec,
   calcDate,
 } from "../../utils/times";
-import {
-  TYPES_DEFAULT_DESCRIPTION_DICT,
-  TYPES_EMOJIS_DICT,
-} from "../../utils/types";
-
-// Custom hook
-function useFormInput(initialValue) {
-  const [value, setValue] = useState(initialValue);
-  const handleChange = (ev) => {
-    setValue(ev.target.value);
-  };
-
-  return {
-    value,
-    onChange: handleChange,
-  };
-}
+import { TYPES_DEFAULT_DESCRIPTION_DICT } from "../../utils/types";
 
 function EntryModal(props) {
   const { updateEntry } = useEntryContext();
+  const typesEmoji = useTypesEmoji();
+
   const description = useFormInput(props.description || "");
   const type = useFormInput(props.type);
 
@@ -58,13 +46,13 @@ function EntryModal(props) {
           Type:
           <select value={type} {...type}>
             <option value="p">
-              {TYPES_EMOJIS_DICT["p"]} {TYPES_DEFAULT_DESCRIPTION_DICT["p"]}
+              {typesEmoji["p"]} {TYPES_DEFAULT_DESCRIPTION_DICT["p"]}
             </option>
             <option value="sb">
-              {TYPES_EMOJIS_DICT["sb"]} {TYPES_DEFAULT_DESCRIPTION_DICT["sb"]}
+              {typesEmoji["sb"]} {TYPES_DEFAULT_DESCRIPTION_DICT["sb"]}
             </option>
             <option value="lb">
-              {TYPES_EMOJIS_DICT["lb"]} {TYPES_DEFAULT_DESCRIPTION_DICT["lb"]}
+              {typesEmoji["lb"]} {TYPES_DEFAULT_DESCRIPTION_DICT["lb"]}
             </option>
           </select>
         </label>
@@ -77,7 +65,7 @@ function EntryModal(props) {
           ></input>
         </label>
         <label className={styles.duration}>
-          <p>Duration:</p>
+          Duration:
           <div className={styles.durationInputContainer}>
             <div className={styles.durationInput}>
               <input type="text" {...durationMin}></input>m

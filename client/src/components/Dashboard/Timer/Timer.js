@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import styles from "./Timer.module.scss";
 
 import { useEntryContext } from "../../../context/EntryContext/EntryContext";
+import { useSettingsContext } from "../../../context/SettingsContext/SettingsContext";
+import { useTypesDuration } from "../../../hooks/useTypesDuration";
+import { useTypesEmoji } from "../../../hooks/useTypesEmoji";
+
 import { formatSecToMinSec } from "../../../utils/times";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { TYPES_DURATION_DICT, TYPES_EMOJIS_DICT } from "../../../utils/types";
 import StartTimerAudio from "../../../assets/sounds/notification.mp3";
 import EndTimerAudio from "../../../assets/sounds/notification_down.mp3";
 // BUG FIX: Bintang's answer https://stackoverflow.com/questions/39807957/countdown-timer-delays-when-tab-is-inactive
@@ -19,6 +22,13 @@ const FULL_DASH_ARRAY = 283;
 // function Timer({ handleCreateEntry })
 function Timer() {
   const { addEntry } = useEntryContext();
+  const {
+    state: { isMuted, showCountdown },
+  } = useSettingsContext();
+
+  const typesDuration = useTypesDuration();
+  const typesEmoji = useTypesEmoji();
+
   const [countdown, setCountdown] = useState(1500000); // ms
   const [counting, setCounting] = useState(false);
   const [timerId, setTimerId] = useState(null);
@@ -42,84 +52,103 @@ function Timer() {
     } else if (countdown === 0 || countdown < 0) {
       // Submit finished timer
 
-      addEntry(description, type, TYPES_DURATION_DICT[type] / 1000, startTime);
-      new Audio(EndTimerAudio).play();
+      addEntry(description, type, typesDuration[type] / 1000, startTime);
+
+      if (!isMuted) {
+        new Audio(EndTimerAudio).play();
+      }
 
       if (type === "p") {
         // If end of pomodoro timer
         setType("sb");
-        setCountdown(TYPES_DURATION_DICT["sb"]);
+        setCountdown(typesDuration["sb"]);
       } else if (type === "sb" || type === "lb") {
         // If end of short/long break timer
         setType("p");
-        setCountdown(TYPES_DURATION_DICT["p"]);
+        setCountdown(typesDuration["p"]);
       }
       setCounting(false);
       setStartTime(null);
     }
-  }, [countdown, counting, description, type, startTime, addEntry]);
+  }, [
+    countdown,
+    counting,
+    description,
+    type,
+    startTime,
+    addEntry,
+    typesDuration,
+    isMuted,
+  ]);
 
   useEffect(() => {
-    if (counting) {
+    if (counting && showCountdown) {
       document.title = `[${formatSecToMinSec(
         Math.floor(countdown / 1000)
       )}] Pomotimer`;
     } else {
       document.title = "Pomotimer";
     }
-  }, [counting, countdown]);
+  }, [counting, countdown, showCountdown]);
 
   function handleTypeChange(newType) {
     // Change type of timer if not counting
     if (type === newType || counting) return;
 
     setType(newType);
-    setCountdown(TYPES_DURATION_DICT[newType]);
+    setCountdown(typesDuration[newType]);
   }
+
   function handleStartStop() {
     // If just started counting set start time
-    if (countdown === TYPES_DURATION_DICT[type]) {
+    if (countdown === typesDuration[type]) {
       setStartTime(Date.now());
-      new Audio(StartTimerAudio).play();
+
+      if (!isMuted) {
+        new Audio(StartTimerAudio).play();
+      }
     }
     // Starts/stops current timer
     if (counting) clearInterval(timerId);
     setCounting(!counting);
   }
+
   function handleReset() {
     // Stops current timer
     if (counting) clearInterval(timerId);
 
     // Resets current timer
-    setCountdown(TYPES_DURATION_DICT[type]);
+    setCountdown(typesDuration[type]);
     setCounting(false);
     setStartTime(null);
   }
+
   function handleCancelSave() {
     // Stops current timer
     if (counting) clearInterval(timerId);
 
     // Resets current timer and submits entry if non-zero
-    if (TYPES_DURATION_DICT[type] - countdown > 0) {
+    if (typesDuration[type] - countdown > 0) {
       addEntry(
         description,
         type,
-        Math.floor((TYPES_DURATION_DICT[type] - countdown) / 1000),
+        Math.floor((typesDuration[type] - countdown) / 1000),
         startTime
       );
     }
-    setCountdown(TYPES_DURATION_DICT[type]);
+    setCountdown(typesDuration[type]);
     setCounting(false);
     setStartTime(null);
   }
+
   function handleDescriptionChange(ev) {
     setDescription(ev.target.value);
   }
 
   function calcStrokeDasharray() {
-    const timeFraction = countdown / TYPES_DURATION_DICT[type];
+    const timeFraction = countdown / typesDuration[type];
     const adjustedTimeFraction =
-      timeFraction - (1 / TYPES_DURATION_DICT[type]) * (1 - timeFraction);
+      timeFraction - (1 / typesDuration[type]) * (1 - timeFraction);
     return `${((1 - adjustedTimeFraction) * FULL_DASH_ARRAY).toFixed(
       0
     )} ${FULL_DASH_ARRAY}`;
@@ -137,8 +166,7 @@ function Timer() {
           }`}
         >
           <p>
-            {TYPES_EMOJIS_DICT["p"]}{" "}
-            {formatSecToMinSec(TYPES_DURATION_DICT["p"] / 1000)}
+            {typesEmoji["p"]} {formatSecToMinSec(typesDuration["p"] / 1000)}
           </p>
         </button>
         <button
@@ -149,8 +177,7 @@ function Timer() {
           }`}
         >
           <p>
-            {TYPES_EMOJIS_DICT["sb"]}{" "}
-            {formatSecToMinSec(TYPES_DURATION_DICT["sb"] / 1000)}
+            {typesEmoji["sb"]} {formatSecToMinSec(typesDuration["sb"] / 1000)}
           </p>
         </button>
         <button
@@ -161,8 +188,7 @@ function Timer() {
           }`}
         >
           <p>
-            {TYPES_EMOJIS_DICT["lb"]}{" "}
-            {formatSecToMinSec(TYPES_DURATION_DICT["lb"] / 1000)}
+            {typesEmoji["lb"]} {formatSecToMinSec(typesDuration["lb"] / 1000)}
           </p>
         </button>
       </div>
@@ -170,7 +196,7 @@ function Timer() {
       {/* Timer */}
       <div className={styles.timerContainer}>
         <h2>{formatSecToMinSec(Math.floor(countdown / 1000))}</h2>
-        <p>/ {formatSecToMinSec(TYPES_DURATION_DICT[type] / 1000)}</p>
+        <p>/ {formatSecToMinSec(typesDuration[type] / 1000)}</p>
         <div className={`${styles.innerCircle} ${TYPES_STYLES_DICT[type]}`} />
         <div className={`${styles.outerCircle} ${TYPES_STYLES_DICT[type]}`}>
           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">

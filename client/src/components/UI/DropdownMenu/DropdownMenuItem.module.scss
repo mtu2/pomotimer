@@ -1,0 +1,24 @@
+.dropdownMenuItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  width: 200px;
+  padding: 6px;
+
+  border-radius: 2px;
+  color: black;
+
+  &:hover {
+    cursor: pointer;
+    background: rgba(241, 241, 241, 0.6);
+  }
+  .icon {
+    margin-right: 12px;
+  }
+}
+
+.red {
+  color: rgb(237, 71, 88);
+  fill: rgb(237, 71, 88);
+}

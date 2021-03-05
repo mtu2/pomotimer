@@ -24,3 +24,9 @@ select {
   font-family: inherit;
   font-size: inherit;
 }
+input,
+select {
+  border: none;
+  outline: none;
+  background-color: inherit;
+}

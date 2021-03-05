@@ -10,6 +10,11 @@ export const entryAPI = {
   delete: (id) => axios.delete(`/api/entries/${id}`),
 };
 
+export const settingsAPI = {
+  get: () => axios.get("/api/settings"),
+  update: (settingsData) => axios.put("/api/settings", settingsData),
+};
+
 export const authAPI = {
   getUser: () => axios.get("/api/user"),
 };

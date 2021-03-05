@@ -1,0 +1,100 @@
+@import "../../scss/variables.scss";
+
+.settingsModal {
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  max-width: calc(100vw - 56px);
+
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .checkbox {
+    margin-bottom: 12px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  input {
+    margin-top: 2px;
+    padding: 2px 12px;
+    border: $border-10;
+    border-radius: 8px;
+
+    &:hover {
+      border: $border-30;
+    }
+  }
+
+  .timeInputContainer,
+  .emojiInputContainer {
+    margin-bottom: 12px;
+
+    p {
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .timeLabels,
+    .emojiLabels {
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        font-size: 14px;
+      }
+
+      .timeLabel,
+      .emojiLabel {
+        display: flex;
+        flex-direction: column;
+        width: 100px;
+      }
+    }
+  }
+  .emojiInputContainer {
+    position: relative;
+
+    .emojiLabel {
+      p {
+        margin-top: 2px;
+        padding: 2px 12px;
+        border: $border-10;
+        border-radius: 8px;
+
+        &:hover {
+          border: $border-30;
+        }
+      }
+    }
+  }
+
+  // .durationInputContainer {
+  //   display: flex;
+  //   .durationInput {
+  //     display: flex;
+  //     align-items: flex-end;
+  //     input {
+  //       width: 40px;
+  //       margin-right: 2px;
+  //       text-align: center;
+  //     }
+  //   }
+  //   > :first-child {
+  //     margin-right: 12px;
+  //   }
+  // }
+  // .startTimeInputContainer {
+  //   display: flex;
+  //   input {
+  //     width: 110px;
+  //     margin-right: 2px;
+  //     text-align: center;
+  //   }
+  //   > :first-child {
+  //     margin-right: 12px;
+  //   }
+  // }
+}

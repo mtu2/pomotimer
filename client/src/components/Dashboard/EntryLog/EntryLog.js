@@ -3,16 +3,15 @@ import styles from "./EntryLog.module.scss";
 
 import { useModalContext } from "../../../context/ModalContext/ModalContext";
 import { useEntryContext } from "../../../context/EntryContext/EntryContext";
+import { useSettingsContext } from "../../../context/SettingsContext/SettingsContext";
+import { useTypesEmoji } from "../../../hooks/useTypesEmoji";
 import {
   formatSecToMinSec2,
   formatSecToHourMin,
   formatDateToDayMonth,
   formatDateToHourMin,
 } from "../../../utils/times";
-import {
-  TYPES_DEFAULT_DESCRIPTION_DICT,
-  TYPES_EMOJIS_DICT,
-} from "../../../utils/types";
+import { TYPES_DEFAULT_DESCRIPTION_DICT } from "../../../utils/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const TYPES_STYLES_DICT = {
@@ -23,6 +22,7 @@ const TYPES_STYLES_DICT = {
 
 const EntryRow = (props) => {
   const { showModal } = useModalContext();
+  const typesEmoji = useTypesEmoji();
   const isOptimistic = props._id < 0;
 
   return (
@@ -32,7 +32,7 @@ const EntryRow = (props) => {
       }`}
     >
       <p className={styles.description}>
-        {TYPES_EMOJIS_DICT[props.type]} &nbsp;
+        {typesEmoji[props.type]} &nbsp;
         {props.description || TYPES_DEFAULT_DESCRIPTION_DICT[props.type]}
       </p>
       <p className={styles.startTime}>{formatDateToHourMin(props.startTime)}</p>
@@ -64,6 +64,8 @@ const EntryRow = (props) => {
 };
 
 const EntryTable = (props) => {
+  const typesEmoji = useTypesEmoji();
+
   const calcTotalPomodoros = () => {
     return props.tableData.filter((el) => el.type === "p").length;
   };
@@ -81,8 +83,7 @@ const EntryTable = (props) => {
         <div className={styles.entryHead}>
           <p>{formatDateToDayMonth(props.tableData[0].startTime)}</p>
           <p>
-            {calcTotalPomodoros()} {TYPES_EMOJIS_DICT["p"]},{" "}
-            {calcTotalPomodoroTime()}
+            {calcTotalPomodoros()} {typesEmoji["p"]}, {calcTotalPomodoroTime()}
           </p>
         </div>
         <div className={styles.entryTable}>
@@ -101,12 +102,19 @@ const EntryTable = (props) => {
 
 function EntryLog() {
   const { state, deleteEntry } = useEntryContext();
+  const {
+    state: { showOnlyPomodoros },
+  } = useSettingsContext();
 
   function sortEntries(unsortedEntries) {
     if (unsortedEntries.length === 0) return [[]];
 
     const returnEntries = [];
-    const dupEntries = [...unsortedEntries];
+    let dupEntries = [...unsortedEntries];
+
+    if (showOnlyPomodoros) {
+      dupEntries = dupEntries.filter((el) => el.type === "p");
+    }
 
     dupEntries.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
     dupEntries.forEach((el) => {

@@ -3,6 +3,8 @@
 .entryModal {
   display: flex;
   flex-direction: column;
+  width: 340px;
+  max-width: calc(100vw - 56px);
 
   h2 {
     font-size: 18px;
@@ -20,10 +22,7 @@
   select {
     margin-top: 2px;
     padding: 2px 8px;
-    border: none;
-    outline: none;
     border: $border-10;
-    background-color: white;
     border-radius: 8px;
 
     &:hover {

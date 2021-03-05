@@ -2,6 +2,7 @@ import { Toaster } from "react-hot-toast";
 import { ModalContextProvider } from "../../context/ModalContext/ModalContext";
 import { EntryContextProvider } from "../../context/EntryContext/EntryContext";
 import { AuthContextProvider } from "../../context/AuthContext/AuthContext";
+import { SettingsContextProvider } from "../../context/SettingsContext/SettingsContext";
 import Modal from "../Modal/Modal";
 import Dashboard from "../Dashboard/Dashboard";
 import Navbar from "../Navbar/Navbar";
@@ -20,13 +21,15 @@ function App() {
     <ModalContextProvider>
       <AuthContextProvider>
         <EntryContextProvider>
-          <div>
-            <Toaster />
-            <Modal />
-            <Navbar />
-            <Dashboard />
-            <Footer />
-          </div>
+          <SettingsContextProvider>
+            <div>
+              <Toaster />
+              <Modal />
+              <Navbar />
+              <Dashboard />
+              <Footer />
+            </div>
+          </SettingsContextProvider>
         </EntryContextProvider>
       </AuthContextProvider>
     </ModalContextProvider>

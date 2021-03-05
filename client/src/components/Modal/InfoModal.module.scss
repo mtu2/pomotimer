@@ -1,0 +1,15 @@
+.infoModal {
+  display: flex;
+  flex-direction: column;
+  width: 420px;
+  max-width: calc(100vw - 56px);
+
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  p {
+    margin-bottom: 16px;
+  }
+}
