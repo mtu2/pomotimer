@@ -7,7 +7,7 @@ Track your work using a fully customisable pomodoro-based timer system. Create a
 🔗 Link: [pomotimer.mttu.dev](https://pomotimer.mttu.dev/)\
 🛠 Built with: `React, Node.js, Express, MongoDB, OAuth, SASS`
 
-[![Pomotimer Screen Shot](./pomotimer-readme-screenshot.png)](https://pomotimer.mttu.dev)
+[![Pomotimer Screen Shot](./readme-screenshot.png)](https://pomotimer.mttu.dev)
 
 <!-- FEATURES -->
 
